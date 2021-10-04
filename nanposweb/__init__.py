@@ -1,11 +1,12 @@
 import os
 
 from flask import Flask
-from flask_login import LoginManager, login_required
-from .main import main as main_blueprint
-from .auth import auth as auth_blueprint
+from flask_login import LoginManager
+
 from .admin import admin as admin_blueprint
+from .auth import auth as auth_blueprint
 from .db import db
+from .main import main as main_blueprint
 from .models import User
 
 

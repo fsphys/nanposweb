@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
-from .models import User
 from hashlib import sha256
+
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required, logout_user, login_user
+
+from .models import User
 
 auth = Blueprint('auth', __name__)
 

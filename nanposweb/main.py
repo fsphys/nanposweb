@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template
-from .models import Product, Revenue
-from .db import db
 from flask_login import current_user, login_required
+
+from .db import db
+from .models import Product, Revenue
 
 main = Blueprint('main', __name__)
 

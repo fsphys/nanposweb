@@ -1,6 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
-from .models import User
-from flask_login import login_required, logout_user, login_user
+from flask import Blueprint
+from flask_login import login_required
 
 admin = Blueprint('admin', __name__)
 
