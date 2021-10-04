@@ -8,6 +8,7 @@ from .auth import auth as auth_blueprint
 from .db import db
 from .main import main as main_blueprint
 from .models import User
+from .util import format_currency
 
 
 def create_app(test_config=None):
@@ -45,6 +46,8 @@ def create_app(test_config=None):
     def load_user(user_id):
         # since the user_id is just the primary key of our user table, use it in the query for the user
         return User.query.get(int(user_id))
+
+    app.jinja_env.filters['format_currency'] = format_currency
 
     # blueprint for auth routes in our app
     app.register_blueprint(auth_blueprint)

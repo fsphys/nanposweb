@@ -2,7 +2,7 @@
     {% if value is lt 0 %}
         <span class="text-danger">
     {% endif %}
-{{ '{:.2f}'.format(value / 100) | replace('.', ',') }} €
+{{ value | format_currency }}
 {% if value is lt 0 %}
     </span>
 {% endif %}

@@ -1,6 +1,6 @@
 {% extends 'site.html' %}
-{% set food_icons = ['fa-burger'] %}
-{% set drink_icons = ['fa-beer-mug-empty'] %}
+{% set food_icons = ['burger', 'cloud-meatball', 'candy-cane', 'ice-cream', 'pizza-slice'] %}
+{% set drink_icons = ['beer-mug-empty', 'martini-glass', 'mug-hot', 'whiskey-glass', 'wine-bottle'] %}
 
 {% block infobar %}
     {% if user.is_authenticated %}
@@ -14,12 +14,22 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row gap-5">
+    <form action="{{ url_for('main.index') }}" method="post">
+    <div class="row row-cols-4 g-3">
         {% for product in products %}
-            <button class="col-2 btn btn-outline-primary p-5">
+            <div class="d-grid">
+            <button type="submit" class="btn btn-secondary py-5 ps-5" name="product_id" value="{{ product.id }}">
+                {% if product.is_food %}
+                    {% set icon = (food_icons | random) %}
+                {% else %}
+                    {% set icon = (drink_icons | random) %}
+                {% endif %}
+                <i class="fa-solid fa-{{ icon }} fa-3x m" style="float: left"></i>
                 {{ product.name }}<br>
                 {{ macros.render_currency(product.price) }}
             </button>
+            </div>
         {% endfor %}
     </div>
+    </form>
 {% endblock %}
