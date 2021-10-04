@@ -1,0 +1,23 @@
+{% extends "site.html" %}
+
+{% block infobar %}
+    {% if user.is_authenticated %}
+        <li class="nav-item">
+            <span class="nav-link text-dark">User: {{ user.name }}</span>
+        </li>
+        <li class="nav-item">
+            <span class="nav-link text-dark">Balance: {{ macros.render_currency(balance) }}</span>
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="row gap-5">
+        {% for product in products %}
+            <button class="col-2 btn btn-outline-primary p-5">
+                {{ product.name }}<br>
+                {{ macros.render_currency(product.price) }}
+            </button>
+        {% endfor %}
+    </div>
+{% endblock %}

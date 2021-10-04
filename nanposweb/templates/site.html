@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <header class="p-3 mb-3 border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-center">
+                <a href="{{ url_for('main.index') }}"
+                   class="col-3 d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                    <i class="fa-solid fa-cash-register fa-2x me-3"></i>
+                    <span class="fs-4">NANPOS Web</span>
+                </a>
+
+                <ul class="nav col-6 ms-auto justify-content-end">
+                    {% block infobar %}
+                    {% endblock %}
+                </ul>
+
+                <div class="col-3 ms-auto text-end">
+                    {% if user.is_authenticated %}
+                        {% if user.isop %}
+                            <a href="{{ url_for('admin.index') }}" type="button" class="btn btn-outline-primary me-2">Admin</a>
+                        {% endif %}
+                        <a href="{{ url_for('main.account') }}" type="button" class="btn btn-outline-primary me-2">Account</a>
+                        <a href="{{ url_for('auth.logout') }}" type="button" class="btn btn-primary">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}" type="button" class="btn btn-primary">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
