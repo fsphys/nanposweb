@@ -1,4 +1,6 @@
-{% extends "site.html" %}
+{% extends 'site.html' %}
+{% set food_icons = ['fa-burger'] %}
+{% set drink_icons = ['fa-beer-mug-empty'] %}
 
 {% block infobar %}
     {% if user.is_authenticated %}

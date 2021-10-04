@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "mate-web"
+name = "nanposweb"
 version = "0.1.0"
 description = ""
 authors = ["Dominik Rimpf <dev@drimpf.de>"]
