@@ -22,7 +22,7 @@ def index():
 def index_post():
     product_id = request.form.get('product_id')
     if product_id is None:
-        flash(f'No product id given', 'danger')
+        flash('No product id given', 'danger')
 
     product = Product.query.filter_by(id=product_id).first()
     if product is None:
