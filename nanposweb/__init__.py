@@ -19,7 +19,7 @@ def create_app(test_config=None):
         SESSION_COOKIE_SECURE=True,
         REMEMBER_COOKIE_SECURE=True,
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        SQLALCHEMY_DATABASE_URI='postgresql://exampleuser:examplepass@localhost:5432/exampledb',
+        SQLALCHEMY_DATABASE_URI='postgresql://nanpos:nanpos@localhost:5432/nanpos',
     )
 
     if test_config is None:
