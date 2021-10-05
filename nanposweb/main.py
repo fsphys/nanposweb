@@ -28,7 +28,7 @@ def index_post():
     if product is None:
         flash(f'No product with id {product_id} known.', 'danger')
 
-    rev = Revenue(user=current_user.id, product=product.id, amount=product.price)
+    rev = Revenue(user=current_user.id, product=product.id, amount=-product.price)
     db.session.add(rev)
     db.session.commit()
 
