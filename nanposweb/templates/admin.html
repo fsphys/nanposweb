@@ -17,18 +17,20 @@
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>
+                            <th scope="col" class="text-end" style="width: 10rem">Balance</th>
                             <th scope="col">Card</th>
                             <th scope="col">Admin</th>
                             <th scope="col">PIN</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for user in users %}
+                        {% for user, balance in users %}
                             <tr>
                                 <td>{{ user.id }}</td>
                                 <td>{{ user.name }}</td>
+                                <td class="text-end">{{ balance | format_currency }}</td>
                                 <td>{% if user.card is not none %}registered{% endif %}</td>
-                                <td>{{ user.isop }}</td>
+                                <td>{{ macros.render_bool(user.isop) }}</td>
                                 <td>{% if user.pin is not none %}set{% endif %}</td>
                             </tr>
                         {% endfor %}
@@ -66,10 +68,10 @@
                                 <td>{{ product.id }}</td>
                                 <td>{{ product.name }}</td>
                                 <td>{{ product.ean }}</td>
-                                <td>{{ product.price }}</td>
-                                <td>{{ product.visible }}</td>
-                                <td>{{ product.has_alc }}</td>
-                                <td>{{ product.is_food }}</td>
+                                <td>{{ product.price | format_currency }}</td>
+                                <td>{{ macros.render_bool(product.visible) }}</td>
+                                <td>{{ macros.render_bool(product.has_alc) }}</td>
+                                <td>{{ macros.render_bool(product.is_food) }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

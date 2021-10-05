@@ -7,3 +7,7 @@
     </span>
 {% endif %}
 {%- endmacro %}
+
+{% macro render_bool(value) %}
+    <i class="fa-solid {% if value %}fa-check text-success{% else %}fa-xmark text-danger{% endif %}"></i>
+{% endmacro %}
