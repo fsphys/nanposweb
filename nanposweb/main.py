@@ -14,7 +14,7 @@ def index():
     products = Product.query.filter_by(visible=True).order_by(Product.name).all()
     stmt = db.select(db.func.sum(Revenue.amount)).where(Revenue.user == current_user.id)
     balance = db.session.execute(stmt).scalars().first()
-    return render_template('index.html', products=products, user=current_user, balance=balance)
+    return render_template('index.html', products=products, balance=balance)
 
 
 @main.route('/', methods=['POST'])

@@ -14,7 +14,7 @@ def admin_required(func):
         if current_app.config.get('LOGIN_DISABLED'):
             return func(*args, **kwargs)
         elif not current_user.isop:
-            flash(f'You are not allowed to access this page.', 'danger')
+            flash('You are not allowed to access this page.', 'danger')
             return redirect(url_for('main.index'))
         return func(*args, **kwargs)
 

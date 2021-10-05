@@ -1,0 +1,81 @@
+{% extends 'site.html' %}
+
+{% block content %}
+    <div class="accordion mb-3">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingUsers">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseUsers"
+                        aria-expanded="false" aria-controls="collapseUsers">
+                    <strong>Users</strong>
+                </button>
+            </h2>
+            <div id="collapseUsers" class="accordion-collapse collapse" aria-labelledby="headingUsers">
+                <div class="accordion-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Card</th>
+                            <th scope="col">Admin</th>
+                            <th scope="col">PIN</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{% if user.card is not none %}registered{% endif %}</td>
+                                <td>{{ user.isop }}</td>
+                                <td>{% if user.pin is not none %}set{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion mb-3">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingProducts">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseProducts" aria-expanded="false" aria-controls="collapseTwo">
+                    <strong>Products</strong>
+                </button>
+            </h2>
+            <div id="collapseProducts" class="accordion-collapse collapse" aria-labelledby="headingProducts">
+                <div class="accordion-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">EAN</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Visible</th>
+                            <th scope="col">Has alcohol</th>
+                            <th scope="col">Is food</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>{{ product.id }}</td>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.ean }}</td>
+                                <td>{{ product.price }}</td>
+                                <td>{{ product.visible }}</td>
+                                <td>{{ product.has_alc }}</td>
+                                <td>{{ product.is_food }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

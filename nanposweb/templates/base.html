@@ -34,7 +34,7 @@
             {% else %}
                 {% set name = category %}
             {% endif %}
-            <div class="alert alert-{{ category }} alert-dismissible fade show text-center" id="{{ category }}-alert">
+            <div class="alert alert-{{ category }} alert-dismissible fade show text-center" id="alert">
                 <strong class="me-2">{{ name | capitalize }}!</strong>{{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -58,11 +58,11 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
-        let alertNode = document.querySelector('#success-alert');
+        let alertNode = document.querySelector('#alert');
         let alert = new bootstrap.Alert(alertNode);
         setTimeout(function () {
             alert.close();
-        }, 3000);
+        }, 4000);
     });
 </script>
 </body>

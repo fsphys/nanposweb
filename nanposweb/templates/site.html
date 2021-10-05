@@ -16,8 +16,8 @@
                 </ul>
 
                 <div class="col-3 ms-auto text-end">
-                    {% if user.is_authenticated %}
-                        {% if user.isop %}
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.isop %}
                             <a href="{{ url_for('admin.index') }}" type="button" class="btn btn-outline-primary me-2">Admin</a>
                         {% endif %}
                         <a href="{{ url_for('main.account') }}" type="button" class="btn btn-outline-primary me-2">Account</a>
