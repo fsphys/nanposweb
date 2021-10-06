@@ -9,13 +9,6 @@ from .util import admin_required
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates')
 
 
-@admin.route('/')
-@login_required
-@admin_required
-def index():
-    return render_template('admin.html')
-
-
 @admin.route('/user')
 @login_required
 @admin_required

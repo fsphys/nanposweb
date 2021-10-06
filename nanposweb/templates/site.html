@@ -22,7 +22,16 @@
                 <div class="col-3 ms-auto text-end">
                     {% if current_user.is_authenticated %}
                         {% if current_user.isop %}
-                            <a href="{{ url_for('admin.index') }}" type="button" class="btn btn-outline-primary me-2">Admin</a>
+                            <div class="btn-group me-2" role="group">
+                                <button id="admin_dropdown" type="button" class="btn btn-outline-primary dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="admin_dropdown">
+                                    <li><a class="dropdown-item" href="{{ url_for('admin.user') }}">Users</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('admin.product') }}">Products</a></li>
+                                </ul>
+                            </div>
                         {% endif %}
                         <a href="{{ url_for('main.account') }}" type="button" class="btn btn-outline-primary me-2">Account</a>
                         <a href="{{ url_for('auth.logout') }}" type="button" class="btn btn-primary">Logout</a>

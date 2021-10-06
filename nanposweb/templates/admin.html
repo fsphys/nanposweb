@@ -1,9 +1,0 @@
-{% extends 'site.html' %}
-{% block pagetitle %}Admin{% endblock %}
-
-{% block content %}
-    <div class="row row-cols-6 gap-3">
-        <a role="button" href="{{ url_for('admin.user') }}" class="col btn btn-primary p-5">Users</a>
-        <a role="button" href="{{ url_for('admin.product') }}" class="col btn btn-primary p-5">Products</a>
-    </div>
-{% endblock %}
