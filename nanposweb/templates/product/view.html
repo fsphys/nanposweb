@@ -8,9 +8,9 @@
             <th scope="col">Name</th>
             <th scope="col">EAN</th>
             <th scope="col" class="text-end" style="width: 10rem">Price</th>
-            <th scope="col">Visible</th>
-            <th scope="col">Has Alcohol</th>
-            <th scope="col">Is Food</th>
+            <th scope="col" class="text-center">Visible</th>
+            <th scope="col" class="text-center">Has Alcohol</th>
+            <th scope="col" class="text-center">Is Food</th>
             <th class="d-grid"><a role="button" class="btn btn-success btn-sm"
                                   href="{{ url_for('admin.product_add') }}"><i
                     class="fa-solid fa-plus"></i></a></th>
@@ -22,9 +22,9 @@
                 <td>{{ product.name }}</td>
                 <td>{{ product.ean }}</td>
                 <td class="text-end">{{ product.price | format_currency }}</td>
-                <td>{{ macro.render_bool(product.visible) }}</td>
-                <td>{{ macro.render_bool(product.has_alc) }}</td>
-                <td>{{ macro.render_bool(product.is_food) }}</td>
+                <td class="text-center">{{ macro.render_bool(product.visible) }}</td>
+                <td class="text-center">{{ macro.render_bool(product.has_alc) }}</td>
+                <td class="text-center">{{ macro.render_bool(product.is_food) }}</td>
                 <td class="row">
                     <a role="button" class="btn btn-primary btn-sm col mx-1"
                        href="{{ url_for('admin.product_edit', product_id=product.id) }}">

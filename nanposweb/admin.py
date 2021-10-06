@@ -15,7 +15,7 @@ admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templ
 def user():
     aggregation = db.select(db.func.sum(Revenue.amount).label('balance'), Revenue.user.label('user_id')).group_by(
         Revenue.user).subquery()
-    user_query = db.select(User, db.func.coalesce(aggregation.c.user_id, 0)).outerjoin(
+    user_query = db.select(User, db.func.coalesce(aggregation.c.balance, 0)).outerjoin(
         aggregation,
         User.id == aggregation.c.user_id
     ).order_by(User.name)
