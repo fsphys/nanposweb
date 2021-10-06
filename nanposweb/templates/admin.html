@@ -1,83 +1,9 @@
 {% extends 'site.html' %}
+{% block pagetitle %}Admin{% endblock %}
 
 {% block content %}
-    <div class="accordion mb-3">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingUsers">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseUsers"
-                        aria-expanded="false" aria-controls="collapseUsers">
-                    <strong>Users</strong>
-                </button>
-            </h2>
-            <div id="collapseUsers" class="accordion-collapse collapse" aria-labelledby="headingUsers">
-                <div class="accordion-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col" class="text-end" style="width: 10rem">Balance</th>
-                            <th scope="col">Card</th>
-                            <th scope="col">Admin</th>
-                            <th scope="col">PIN</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for user, balance in users %}
-                            <tr>
-                                <td>{{ user.id }}</td>
-                                <td>{{ user.name }}</td>
-                                <td class="text-end">{{ balance | format_currency }}</td>
-                                <td>{% if user.card is not none %}registered{% endif %}</td>
-                                <td>{{ macros.render_bool(user.isop) }}</td>
-                                <td>{% if user.pin is not none %}set{% endif %}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="accordion mb-3">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingProducts">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseProducts" aria-expanded="false" aria-controls="collapseTwo">
-                    <strong>Products</strong>
-                </button>
-            </h2>
-            <div id="collapseProducts" class="accordion-collapse collapse" aria-labelledby="headingProducts">
-                <div class="accordion-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">EAN</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Visible</th>
-                            <th scope="col">Has alcohol</th>
-                            <th scope="col">Is food</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for product in products %}
-                            <tr>
-                                <td>{{ product.id }}</td>
-                                <td>{{ product.name }}</td>
-                                <td>{{ product.ean }}</td>
-                                <td>{{ product.price | format_currency }}</td>
-                                <td>{{ macros.render_bool(product.visible) }}</td>
-                                <td>{{ macros.render_bool(product.has_alc) }}</td>
-                                <td>{{ macros.render_bool(product.is_food) }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <div class="row row-cols-6 gap-3">
+        <a role="button" href="{{ url_for('admin.user') }}" class="col btn btn-primary p-5">Users</a>
+        <a role="button" href="{{ url_for('admin.product') }}" class="col btn btn-primary p-5">Products</a>
     </div>
 {% endblock %}

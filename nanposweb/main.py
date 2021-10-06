@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
 
 from .db import db
+from .forms import MainForm
 from .models import Product, Revenue
 from .util import format_currency
 
@@ -11,15 +12,21 @@ main = Blueprint('main', __name__)
 @main.route('/')
 @login_required
 def index():
+    form = MainForm()
     products = Product.query.filter_by(visible=True).order_by(Product.name).all()
     stmt = db.select(db.func.sum(Revenue.amount)).where(Revenue.user == current_user.id)
     balance = db.session.execute(stmt).scalars().first()
-    return render_template('index.html', products=products, balance=balance)
+    return render_template('index.html', products=products, balance=balance, form=form)
 
 
 @main.route('/', methods=['POST'])
 @login_required
 def index_post():
+    form = MainForm()
+    if not form.validate_on_submit():
+        flash('PANIC', 'danger')
+        return redirect(url_for('main.index'))
+
     product_id = request.form.get('product_id')
     if product_id is None:
         flash('No product id given', 'danger')

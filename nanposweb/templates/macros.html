@@ -11,3 +11,17 @@
 {% macro render_bool(value) %}
     <i class="fa-solid {% if value %}fa-check text-success{% else %}fa-xmark text-danger{% endif %}"></i>
 {% endmacro %}
+
+{% macro render_field(field) %}
+    <div class="mb-3 form-floating">
+        {{ field(class="form-control") }}
+        {{ field.label }}
+    </div>
+{% endmacro %}
+
+{% macro render_checkbox(checkbox) %}
+    <div class="form-check">
+        {{ checkbox(class="form-check-input") }}
+        {{ checkbox.label }}
+    </div>
+{% endmacro %}

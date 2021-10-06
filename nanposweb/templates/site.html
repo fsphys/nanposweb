@@ -5,12 +5,16 @@
         <div class="container">
             <div class="d-flex flex-wrap justify-content-center">
                 <a href="{{ url_for('main.index') }}"
-                   class="col-3 d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                   class="col-2 d-flex align-items-center text-dark text-decoration-none me-2">
                     <i class="fa-solid fa-cash-register fa-2x me-3"></i>
                     <span class="fs-4">NANPOS Web</span>
                 </a>
 
-                <ul class="nav col-6 ms-auto justify-content-end">
+                <span class="col-2 d-flex text-dark text-decoration-none align-items-center fs-5">
+                    {% block pagetitle %}{% endblock %}
+                </span>
+
+                <ul class="nav col-4 ms-auto justify-content-end">
                     {% block infobar %}
                     {% endblock %}
                 </ul>

@@ -1,4 +1,4 @@
-{% import "macros.html" as macros %}
+{% import "macros.html" as macro %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
               integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
               crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}"/>
     {% endblock %}
     {% block additional_styles %}
     {% endblock %}
@@ -26,7 +27,7 @@
 {% block header %}
 {% endblock %}
 
-<div class="position-fixed top-0 start-50 translate-middle-x mt-5">
+<div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 10000">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, message in messages %}
             {% if category == 'danger' %}
