@@ -16,7 +16,7 @@
         {% for user, balance in users %}
             <tr>
                 <td>{{ user.name }}</td>
-                <td class="text-end">{{ balance | format_currency }}</td>
+                <td class="text-end">{{ macro.render_currency(balance) }}</td>
                 <td class="text-center">{% if user.card is not none %}<i class="fa-solid fa-id-card-clip"></i>{% endif %}</td>
                 <td class="text-center">{{ macro.render_bool(user.isop) }}</td>
                 <td class="text-center">{% if user.pin is not none %}<i class="fa-solid fa-lock"></i>{% endif %}</td>

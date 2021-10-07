@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nanposweb"
-version = "0.3.0"
+version = "0.3.1"
 description = ""
 authors = ["Dominik Rimpf <dev@drimpf.de>"]
 license = "MIT"
