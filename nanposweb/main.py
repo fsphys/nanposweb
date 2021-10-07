@@ -12,11 +12,12 @@ main = Blueprint('main', __name__)
 @main.route('/')
 @login_required
 def index():
+    view_all = request.args.get('view_all', False)
     form = MainForm()
-    products = Product.query.filter_by(visible=True).order_by(Product.name).all()
+    products = Product.query.order_by(Product.name).all()
     stmt = db.select(db.func.sum(Revenue.amount)).where(Revenue.user == current_user.id)
     balance = db.session.execute(stmt).scalars().first()
-    return render_template('index.html', products=products, balance=balance, form=form)
+    return render_template('index.html', products=products, balance=balance, form=form, view_all=view_all)
 
 
 @main.route('/', methods=['POST'])
@@ -46,4 +47,9 @@ def index_post():
 @main.route('/account')
 @login_required
 def account():
-    return 'Account'
+    stmt = db.select(db.func.sum(Revenue.amount)).where(Revenue.user == current_user.id)
+    balance = db.session.execute(stmt).scalars().first()
+    revenues_query = db.select(Revenue, db.func.coalesce(Product.name, '')).outerjoin(
+        Product, Revenue.product == Product.id).where(Revenue.user == current_user.id).order_by(db.desc(Revenue.id))
+    revenues = db.session.execute(revenues_query).all()
+    return render_template('account.html', balance=balance, revenues=revenues)

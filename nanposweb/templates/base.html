@@ -35,15 +35,15 @@
             {% else %}
                 {% set name = category %}
             {% endif %}
-            <div class="alert alert-{{ category }} alert-dismissible fade show text-center" id="alert">
+            <div class="alert alert-{{ category }} alert-dismissible fade show text-center" id="alert" role="alert">
                 <strong class="me-2">{{ name | capitalize }}!</strong>{{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         {% endfor %}
     {% endwith %}
 </div>
-<main class="container">
 
+<main class="container">
     {% block content %}
     {% endblock %}
 </main>

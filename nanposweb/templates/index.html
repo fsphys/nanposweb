@@ -19,6 +19,7 @@
         {{ form.csrf_token }}
         <div class="row row-cols-4 g-3">
             {% for product in products %}
+                {% if product.visible or view_all %}
                 <div class="d-grid">
                     <button type="submit" class="btn btn-outline-primary py-5 ps-5" name="product_id"
                             value="{{ product.id }}">
@@ -36,6 +37,7 @@
                         {{ macro.render_currency(product.price) }}
                     </button>
                 </div>
+                {% endif %}
             {% endfor %}
         </div>
     </form>
