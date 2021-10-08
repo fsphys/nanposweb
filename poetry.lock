@@ -256,8 +256,8 @@ test = ["werkzeug", "beautifulsoup4"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.9"
-content-hash = "3ffe7c5dee84a30fb5e8156e6271f06036bd4599dff892fd3e398b4837d9398a"
+python-versions = "^3.8"
+content-hash = "5ed0720b584912a0e76ec68ac6a641308bc5c2ca85101e0a58a6f400e285f5d3"
 
 [metadata.files]
 blinker = [

@@ -1,4 +1,5 @@
 import os
+from importlib import metadata
 
 from flask import Flask
 from flask_login import LoginManager, current_user
@@ -66,7 +67,11 @@ def create_app(test_config=None):
 
     @app.context_processor
     def get_version():
-        return dict(version='')
+        if app.env == 'production':
+            version = metadata.version('nanposweb')
+        else:
+            version = 'devel'
+        return dict(version=version)
 
     # blueprint for auth routes in our app
     app.register_blueprint(auth_blueprint)
