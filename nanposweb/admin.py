@@ -1,17 +1,19 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required
+from flask_principal import Permission, RoleNeed
 
 from .db import db
 from .forms import ProductForm
 from .models import User, Product, Revenue
-from .util import admin_required
 
 admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates')
+
+admin_permission = Permission(RoleNeed('admin'))
 
 
 @admin.route('/user')
 @login_required
-@admin_required
+@admin_permission.require(http_exception=401)
 def user():
     aggregation = db.select(db.func.sum(Revenue.amount).label('balance'), Revenue.user.label('user_id')).group_by(
         Revenue.user).subquery()
@@ -25,7 +27,7 @@ def user():
 
 @admin.route('/product')
 @login_required
-@admin_required
+@admin_permission.require(http_exception=401)
 def product():
     products = Product.query.order_by(Product.name).all()
     return render_template('product/view.html', products=products)
@@ -33,7 +35,7 @@ def product():
 
 @admin.route('/product', methods=['POST'])
 @login_required
-@admin_required
+@admin_permission.require(http_exception=401)
 def product_post():
     form = ProductForm()
     if not form.validate_on_submit():
@@ -68,7 +70,7 @@ def product_post():
 
 @admin.route('/product/add')
 @login_required
-@admin_required
+@admin_permission.require(http_exception=401)
 def product_add():
     form = ProductForm()
     return render_template('product/form.html', form=form, edit=False)
@@ -76,7 +78,7 @@ def product_add():
 
 @admin.route('/product/edit/<product_id>')
 @login_required
-@admin_required
+@admin_permission.require(http_exception=401)
 def product_edit(product_id):
     item = Product.query.filter_by(id=product_id).one()
     form = ProductForm(
@@ -93,7 +95,7 @@ def product_edit(product_id):
 
 @admin.route('/product/delete/<product_id>')
 @login_required
-@admin_required
+@admin_permission.require(http_exception=401)
 def product_delete(product_id):
     item = Product.query.filter_by(id=product_id).one()
     db.session.delete(item)

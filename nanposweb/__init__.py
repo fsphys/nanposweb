@@ -1,7 +1,8 @@
 import os
 
 from flask import Flask
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
+from flask_principal import Principal, identity_loaded, UserNeed, RoleNeed
 
 from .admin import admin as admin_blueprint
 from .auth import auth as auth_blueprint
@@ -37,6 +38,8 @@ def create_app(test_config=None):
 
     db.init_app(app)
 
+    Principal(app)
+
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.login_message_category = 'info'
@@ -44,8 +47,20 @@ def create_app(test_config=None):
 
     @login_manager.user_loader
     def load_user(user_id):
-        # since the user_id is just the primary key of our user table, use it in the query for the user
         return User.query.get(int(user_id))
+
+    @identity_loaded.connect_via(app)
+    def on_identity_loaded(sender, identity):
+        # Set the identity user object
+        identity.user = current_user
+
+        # Add the UserNeed to the identity
+        if hasattr(current_user, 'id'):
+            identity.provides.add(UserNeed(current_user.id))
+
+        # Add the 'admin' RoleNeed to the identity
+        if hasattr(current_user, 'isop'):
+            identity.provides.add(RoleNeed('admin'))
 
     app.jinja_env.filters['format_currency'] = format_currency
 

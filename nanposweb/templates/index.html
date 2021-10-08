@@ -20,23 +20,23 @@
         <div class="row row-cols-4 g-3">
             {% for product in products %}
                 {% if product.visible or view_all %}
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-outline-primary py-5 ps-5" name="product_id"
-                            value="{{ product.id }}">
-                        {% if product.is_food %}
-                            {% set icon = (food_icons | random) %}
-                        {% else %}
-                            {% if product.has_alc %}
-                                {% set icon = (alc_icons | random) %}
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-outline-primary py-5 ps-5" name="product_id"
+                                value="{{ product.id }}">
+                            {% if product.is_food %}
+                                {% set icon = (food_icons | random) %}
                             {% else %}
-                                {% set icon = (drink_icons | random) %}
+                                {% if product.has_alc %}
+                                    {% set icon = (alc_icons | random) %}
+                                {% else %}
+                                    {% set icon = (drink_icons | random) %}
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                        <i class="fa-solid fa-{{ icon }} fa-3x" style="float: left"></i>
-                        {{ product.name }}<br>
-                        {{ macro.render_currency(product.price) }}
-                    </button>
-                </div>
+                            <i class="fa-solid fa-{{ icon }} fa-3x" style="float: left"></i>
+                            {{ product.name }}<br>
+                            {{ macro.render_currency(product.price) }}
+                        </button>
+                    </div>
                 {% endif %}
             {% endfor %}
         </div>

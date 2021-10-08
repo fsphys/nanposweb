@@ -40,7 +40,7 @@ def index_post():
     db.session.add(rev)
     db.session.commit()
 
-    flash(f'Buyed {product.name} for {format_currency(product.price)}', 'success')
+    flash(f'Bought {product.name} for {format_currency(product.price)}', 'success')
     return redirect(url_for('main.index'))
 
 

@@ -23,13 +23,15 @@
                     {% if current_user.is_authenticated %}
                         {% if current_user.isop %}
                             <div class="btn-group me-2" role="group">
-                                <button id="admin_dropdown" type="button" class="btn btn-outline-primary dropdown-toggle"
+                                <button id="admin_dropdown" type="button"
+                                        class="btn btn-outline-primary dropdown-toggle"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     Admin
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="admin_dropdown">
                                     <li><a class="dropdown-item" href="{{ url_for('admin.user') }}">Users</a></li>
                                     <li><a class="dropdown-item" href="{{ url_for('admin.product') }}">Products</a></li>
+                                    <li><a class="dropdown-item" href="#">Impersonate</a></li>
                                 </ul>
                             </div>
                         {% endif %}
