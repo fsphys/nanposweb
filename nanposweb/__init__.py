@@ -3,7 +3,6 @@ import os
 from flask import Flask
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, identity_loaded, UserNeed, RoleNeed
-from git import Repo
 
 from .admin import admin as admin_blueprint
 from .auth import auth as auth_blueprint
@@ -67,12 +66,7 @@ def create_app(test_config=None):
 
     @app.context_processor
     def get_version():
-        repo = Repo(search_parent_directories=True)
-        try:
-            version = str([tag for tag in repo.tags if tag.commit == repo.head.commit][0]).lstrip('v')
-        except IndexError:
-            version = repo.head.object.hexsha
-        return dict(version=version)
+        return dict(version='')
 
     # blueprint for auth routes in our app
     app.register_blueprint(auth_blueprint)
