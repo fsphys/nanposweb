@@ -2,8 +2,8 @@
 {% block additional_styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 {% endblock %}
-{% block content %}
-    <main class="text-center">
+{% block main %}
+    <div class="text-center align-items-center" style="padding-top: 20vh">
         <div class="mb-3">
             <i class="mb-4 fas fa-cash-register fa-7x"></i>
             <h1>NANPOS Web</h1>
@@ -27,5 +27,5 @@
             </div>
             {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
         </form>
-    </main>
+    </div>
 {% endblock %}

@@ -1,47 +1,51 @@
 {% extends "base.html" %}
 
 {% block header %}
-    <header class="p-3 mb-3 border-bottom">
+    <nav class="navbar navbar-light bg-light fixed-top">
         <div class="container">
-            <div class="d-flex flex-wrap justify-content-center">
-                <a href="{{ url_for('main.index') }}"
-                   class="col-2 d-flex align-items-center text-dark text-decoration-none me-2">
-                    <i class="fa-solid fa-cash-register fa-2x me-3"></i>
-                    <span class="fs-4">NANPOS Web</span>
-                </a>
+            <a href="{{ url_for('main.index') }}" class="navbar-brand">
+                <i class="fa-solid fa-cash-register me-3 d-inline-block align-text-top"></i>
+                NANPOS Web
+            </a>
 
-                <span class="col-2 d-flex text-dark text-decoration-none align-items-center fs-5">
+            <span class="col-2 d-flex text-dark text-decoration-none align-items-center fs-5">
                     {% block pagetitle %}{% endblock %}
                 </span>
 
-                <ul class="nav col-4 ms-auto justify-content-end">
-                    {% block infobar %}
-                    {% endblock %}
-                </ul>
+            <ul class="nav col-4 ms-auto justify-content-end">
+                {% block infobar %}
+                {% endblock %}
+            </ul>
 
-                <div class="col-3 ms-auto text-end">
-                    {% if current_user.is_authenticated %}
-                        {% if current_user.isop %}
-                            <div class="btn-group me-2" role="group">
-                                <button id="admin_dropdown" type="button"
-                                        class="btn btn-outline-primary dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                    Admin
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="admin_dropdown">
-                                    <li><a class="dropdown-item" href="{{ url_for('admin.user') }}">Users</a></li>
-                                    <li><a class="dropdown-item" href="{{ url_for('admin.product') }}">Products</a></li>
-                                    <li><a class="dropdown-item" href="#">Impersonate</a></li>
-                                </ul>
-                            </div>
-                        {% endif %}
-                        <a href="{{ url_for('main.account') }}" type="button" class="btn btn-outline-primary me-2">Account</a>
-                        <a href="{{ url_for('auth.logout') }}" type="button" class="btn btn-primary">Logout</a>
-                    {% else %}
-                        <a href="{{ url_for('auth.login') }}" type="button" class="btn btn-primary">Login</a>
+            <div class="col-3 ms-auto text-end">
+                {% if current_user.is_authenticated %}
+                    {% if current_user.isop %}
+                        <div class="btn-group me-2" role="group">
+                            <button id="admin_dropdown" type="button"
+                                    class="btn btn-outline-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="admin_dropdown">
+                                <li><a class="dropdown-item" href="{{ url_for('admin.user') }}">Users</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('admin.product') }}">Products</a></li>
+                            </ul>
+                        </div>
                     {% endif %}
-                </div>
+                    <a href="{{ url_for('main.account') }}" type="button"
+                       class="btn btn-outline-primary me-2">Account</a>
+                    <a href="{{ url_for('auth.logout') }}" type="button" class="btn btn-primary">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" type="button" class="btn btn-primary">Login</a>
+                {% endif %}
             </div>
         </div>
-    </header>
+    </nav>
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
 {% endblock %}

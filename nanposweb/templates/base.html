@@ -23,9 +23,11 @@
 
     <title>NANPOS Web</title>
 </head>
-<body>
-{% block header %}
-{% endblock %}
+<body class="d-flex h-100 flex-column">
+<header>
+    {% block header %}
+    {% endblock %}
+</header>
 
 <div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 10000">
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -43,10 +45,16 @@
     {% endwith %}
 </div>
 
-<main class="container">
-    {% block content %}
+<main>
+    {% block main %}
     {% endblock %}
 </main>
+
+<footer class="footer fixed-bottom py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">Version {{ version }}</span>
+    </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
