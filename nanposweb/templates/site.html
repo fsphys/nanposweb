@@ -18,6 +18,8 @@
             </ul>
 
             <div class="col-auto ms-3 text-end">
+                {% block additional_buttons %}
+                {% endblock %}
                 {% if current_user.is_authenticated %}
                     {% if current_user.isop %}
                         <div class="btn-group me-2" role="group">

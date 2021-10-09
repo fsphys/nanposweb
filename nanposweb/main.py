@@ -29,7 +29,7 @@ def index():
     stmt = db.select(db.func.coalesce(db.func.sum(Revenue.amount), 0)).where(Revenue.user == user_id)
     balance = db.session.execute(stmt).scalars().first()
 
-    view_all = request.args.get('view_all', False)
+    view_all = request.args.get('view_all', False, type=bool)
     form = MainForm()
     products = Product.query.order_by(Product.name).all()
     return render_template('index.html', products=products, balance=balance, form=form, view_all=view_all)
