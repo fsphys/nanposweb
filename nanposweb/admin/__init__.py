@@ -2,7 +2,6 @@ from flask import Blueprint
 
 from .products import products_bp as products_blueprint
 from .users import users_bp as users_blueprint
-from .util import admin_permission
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates')
 

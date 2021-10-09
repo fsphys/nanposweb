@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, redirect, url_for, session
+from flask import Blueprint, render_template, redirect, url_for, session, flash
 from flask_login import login_required
 
 from .util import admin_permission
 from ..db import db
 from ..models import User, Revenue
+from .forms import BalanceForm, UserForm
 
 users_bp = Blueprint('users', __name__, url_prefix='/users')
 
@@ -36,3 +37,32 @@ def impersonate(user_id):
 def pop_impersonate():
     session.pop('impersonate', None)
     return redirect(url_for('admin.users.index'))
+
+
+@users_bp.route('/balance/<user_id>', methods=['GET', 'POST'])
+@login_required
+@admin_permission.require(http_exception=401)
+def balance(user_id):
+    user = User.query.get(int(user_id))
+    form = BalanceForm()
+
+    if form.validate_on_submit():
+        euros = form.amount.data
+        cents = int(euros * 100)
+
+        if form.recharge.data:
+            factor = 1
+            flash(f'Added {euros:.2f} € to {user.name}s balance', 'success')
+        elif form.charge.data:
+            factor = -1
+            flash(f'Charged {euros:.2f} € from {user.name}', 'success')
+        else:
+            flash('PANIC', 'danger')
+            return render_template('users/balance.html', form=form, user=user)
+
+        rev = Revenue(user=user.id, product=None, amount=cents * factor)
+        db.session.add(rev)
+        db.session.commit()
+        return redirect(url_for('admin.users.index'))
+
+    return render_template('users/balance.html', form=form, user=user)

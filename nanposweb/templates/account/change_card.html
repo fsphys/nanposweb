@@ -6,7 +6,8 @@
             {{ form.csrf_token }}
             {{ macro.render_field(form.card_number) }}
             <div class="row mt-2">
-                <button type="submit" class="col-5 mx-auto btn btn-success">Change Card</button>
+                <button type="submit" class="col mx-3 btn btn-success">Change Card</button>
+                <a role="button" href="{{ url_for('account.index') }}" class="col mx-3 btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>

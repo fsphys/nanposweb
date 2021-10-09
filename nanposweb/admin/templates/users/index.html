@@ -7,7 +7,7 @@
         <tr>
             <th style="width: 8rem">Impersonate</th>
             <th scope="col">Name</th>
-            <th scope="col" class="text-end" style="width: 10rem">Balance</th>
+            <th scope="col" style="width: 9rem">Balance</th>
             <th scope="col" class="text-center">Card</th>
             <th scope="col" class="text-center">Admin</th>
             <th scope="col" class="text-center">PIN</th>
@@ -18,11 +18,18 @@
             <tr>
                 <td>
                     <a role="button" class="btn btn-primary btn-sm px-4"
-                       href="{{ url_for('admin.users.impersonate', user_id=user.id) }}"><i
-                            class="fa-solid fa-user-secret"></i></a>
+                       href="{{ url_for('admin.users.impersonate', user_id=user.id) }}">
+                        <i class="fa-solid fa-user-secret"></i>
+                    </a>
                 </td>
                 <td>{{ user.name }}</td>
-                <td class="text-end">{{ macro.render_currency(balance) }}</td>
+                <td class="text-end">
+                    {{ macro.render_currency(balance) }}
+                    <a role="button" class="btn btn-success btn-sm ms-2"
+                       href="{{ url_for('admin.users.balance', user_id=user.id) }}">
+                        <i class="fa-solid fa-plus-minus px-1"></i>
+                    </a>
+                </td>
                 <td class="text-center">{% if user.card is not none %}
                     <i class="fa-solid fa-id-card-clip"></i>{% endif %}</td>
                 <td class="text-center">{{ macro.render_bool(user.isop) }}</td>

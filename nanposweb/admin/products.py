@@ -3,7 +3,7 @@ from flask_login import login_required
 
 from .util import admin_permission
 from ..db import db
-from ..forms import ProductForm
+from .forms import ProductForm
 from ..models import Product
 
 products_bp = Blueprint('products', __name__, url_prefix='/products')

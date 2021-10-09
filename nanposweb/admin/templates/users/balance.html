@@ -1,0 +1,20 @@
+{% extends 'site.html' %}
+{% block pagetitle %}Recharge / Charge {{ user.name }}{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <form class="w-50" method="post" action="{{ url_for('admin.users.balance', user_id=user.id) }}">
+            {{ form.csrf_token }}
+            {{ form.amount.label }}
+            <div class="input-group mb-3">
+                {{ form.amount(class="form-control") }}
+                <span class="input-group-text" id="basic-addon1">€</span>
+            </div>
+            <div class="row mt-2">
+                {{ form.recharge(class="col mx-3 btn btn-success") }}
+                {{ form.charge(class="col mx-3 btn btn-danger") }}
+                <a role="button" href="{{ url_for('admin.users.index') }}" class="col mx-3 btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

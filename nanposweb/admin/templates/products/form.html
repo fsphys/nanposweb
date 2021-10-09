@@ -22,14 +22,14 @@
             {{ macro.render_checkbox(form.has_alc) }}
             {{ macro.render_checkbox(form.is_food) }}
             <div class="row mt-2">
-                <button type="submit" class="col-5 mx-auto btn btn-success">
+                <button type="submit" class="col mx-3 btn btn-success">
                     {% if edit %}
                         Update
                     {% else %}
                         Create
                     {% endif %}
                 </button>
-                <a role="button" href="{{ url_for('admin.products.index') }}" class="col-5 mx-auto btn btn-danger">Cancel</a>
+                <a role="button" href="{{ url_for('admin.products.index') }}" class="col mx-3 btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
