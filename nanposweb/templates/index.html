@@ -6,7 +6,7 @@
 {% block pagetitle %}
     {% if impersonate_user is not none %}
         <span class="text-danger me-3">Impersonating {{ impersonate_user.name }}</span>
-        <a role="button" class="btn btn-danger" href="{{ url_for('admin.pop_impersonate') }}">Disable</a>
+        <a role="button" class="btn btn-danger" href="{{ url_for('admin.users.pop_impersonate') }}">Disable</a>
     {% endif %}
 {% endblock %}
 

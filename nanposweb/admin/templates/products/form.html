@@ -10,7 +10,7 @@
 
 {% block content %}
     <div class="d-flex justify-content-center">
-        <form class="w-50" method="post" action="{{ url_for('admin.product') }}">
+        <form class="w-50" method="post" action="{{ url_for('admin.products.post') }}">
             {{ form.csrf_token }}
             {% if edit %}
                 {{ macro.render_field(form.id) }}
@@ -29,7 +29,7 @@
                         Create
                     {% endif %}
                 </button>
-                <a role="button" href="{{ url_for('admin.product') }}" class="col-5 mx-auto btn btn-danger">Cancel</a>
+                <a role="button" href="{{ url_for('admin.products.index') }}" class="col-5 mx-auto btn btn-danger">Cancel</a>
             </div>
         </form>
     </div>

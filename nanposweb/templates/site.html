@@ -29,8 +29,9 @@
                                 Admin
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="admin_dropdown">
-                                <li><a class="dropdown-item" href="{{ url_for('admin.user') }}">Users</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for('admin.product') }}">Products</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('admin.users.index') }}">Users</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('admin.products.index') }}">Products</a>
+                                </li>
                             </ul>
                         </div>
                     {% endif %}

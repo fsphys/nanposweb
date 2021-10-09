@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from flask_login import current_user, login_required
 
-from .admin import admin_permission
+from .admin.util import admin_permission
 from .db import db
 from .forms import MainForm
 from .models import Product, Revenue, User
