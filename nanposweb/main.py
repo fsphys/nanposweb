@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from flask_login import current_user, login_required
 
+from .admin import admin_permission
 from .db import db
 from .forms import MainForm
 from .models import Product, Revenue, User
 from .util import format_currency
-from .admin import admin_permission
 
 main = Blueprint('main', __name__)
 
@@ -69,14 +69,3 @@ def index_post():
 
     flash(f'Bought {product.name} for {format_currency(product.price)}{user_message}', 'success')
     return redirect(url_for('main.index'))
-
-
-@main.route('/account')
-@login_required
-def account():
-    stmt = db.select(db.func.sum(Revenue.amount)).where(Revenue.user == current_user.id)
-    balance = db.session.execute(stmt).scalars().first()
-    revenues_query = db.select(Revenue, db.func.coalesce(Product.name, '')).outerjoin(
-        Product, Revenue.product == Product.id).where(Revenue.user == current_user.id).order_by(db.desc(Revenue.id))
-    revenues = db.session.execute(revenues_query).all()
-    return render_template('account.html', balance=balance, revenues=revenues)

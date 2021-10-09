@@ -5,6 +5,7 @@ from flask import Flask
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, identity_loaded, UserNeed, RoleNeed
 
+from .account import account as account_blueprint
 from .admin import admin as admin_blueprint
 from .auth import auth as auth_blueprint
 from .db import db
@@ -78,6 +79,9 @@ def create_app(test_config=None):
 
     # blueprint for main parts of app
     app.register_blueprint(main_blueprint)
+
+    # blueprint for account management
+    app.register_blueprint(account_blueprint)
 
     # blueprint for admin parts of app
     app.register_blueprint(admin_blueprint)

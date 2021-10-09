@@ -13,7 +13,7 @@
 {% block content %}
     <div class="row mb-3">
         <a role="button" href="#" class="btn btn-primary col p-4 m-2">Change Card</a>
-        <a role="button" href="#" class="btn btn-primary col p-4 m-2">Change PIN</a>
+        <a role="button" href="{{ url_for('account.pin') }}" class="btn btn-primary col p-4 m-2">Change PIN</a>
     </div>
 
     <div class="card" style="height: 50vh">

@@ -33,3 +33,13 @@ class ProductForm(FlaskForm):
     visible = BooleanField(label='Visible', )
     has_alc = BooleanField(label='Has Alcohol', )
     is_food = BooleanField(label='Is Food', )
+
+
+class PinForm(FlaskForm):
+    class Meta(AutoAttrMeta):
+        pass
+
+    old_pin = PasswordField(label='Old PIN', validators=[InputRequired()], render_kw={'placeholder': 'pin'}, )
+    new_pin = PasswordField(label='New PIN', validators=[InputRequired()], render_kw={'placeholder': 'pin'}, )
+    confirm_pin = PasswordField(label='Confirm new PIN', validators=[InputRequired()],
+                                render_kw={'placeholder': 'pin'}, )

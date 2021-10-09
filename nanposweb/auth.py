@@ -1,11 +1,10 @@
-from hashlib import sha256
-
 from flask import Blueprint, render_template, redirect, url_for, request, flash, current_app, session
 from flask_login import login_required, logout_user, login_user
 from flask_principal import identity_changed, Identity, AnonymousIdentity
 
 from .forms import LoginForm
 from .models import User
+from .util import check_hash
 
 auth = Blueprint('auth', __name__)
 
@@ -17,7 +16,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(name=form.username.data).one_or_none()
 
-        if user and sha256(form.pin.data.encode('utf-8')).hexdigest() == user.pin:
+        if user and check_hash(user.pin, form.pin.data):
             login_user(user, remember=form.remember.data)
             flash('Logged in', 'success')
 

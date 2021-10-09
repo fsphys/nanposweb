@@ -6,7 +6,7 @@ from .db import db
 from .forms import ProductForm
 from .models import User, Product, Revenue
 
-admin = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates')
+admin = Blueprint('admin', __name__, url_prefix='/admin')
 
 admin_permission = Permission(RoleNeed('admin'))
 
