@@ -40,6 +40,12 @@ class PinForm(FlaskForm):
         pass
 
     old_pin = PasswordField(label='Old PIN', validators=[InputRequired()], render_kw={'placeholder': 'pin'}, )
-    new_pin = PasswordField(label='New PIN', validators=[InputRequired()], render_kw={'placeholder': 'pin'}, )
-    confirm_pin = PasswordField(label='Confirm new PIN', validators=[InputRequired()],
-                                render_kw={'placeholder': 'pin'}, )
+    new_pin = PasswordField(label='New PIN', render_kw={'placeholder': 'pin'}, )
+    confirm_pin = PasswordField(label='Confirm new PIN', render_kw={'placeholder': 'pin'}, )
+
+
+class CardForm(FlaskForm):
+    class Meta(AutoAttrMeta):
+        pass
+
+    card_number = StringField(label='Card ID', render_kw={'placeholder': 'Card ID'}, )

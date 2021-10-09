@@ -1,0 +1,13 @@
+{% extends 'site.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <form class="w-50" method="post" action="{{ url_for('account.card') }}">
+            {{ form.csrf_token }}
+            {{ macro.render_field(form.card_number) }}
+            <div class="row mt-2">
+                <button type="submit" class="col-5 mx-auto btn btn-success">Change Card</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

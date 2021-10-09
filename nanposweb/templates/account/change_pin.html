@@ -1,0 +1,15 @@
+{% extends 'site.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <form class="w-50" method="post" action="{{ url_for('account.pin') }}">
+            {{ form.csrf_token }}
+            {{ macro.render_field(form.old_pin) }}
+            {{ macro.render_field(form.new_pin) }}
+            {{ macro.render_field(form.confirm_pin) }}
+            <div class="row mt-2">
+                <button type="submit" class="col-5 mx-auto btn btn-success">Change PIN</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
