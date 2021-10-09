@@ -13,7 +13,10 @@ main_bp = Blueprint('main', __name__)
 @main_bp.context_processor
 def impersonate():
     impersonate_user_id = session.get('impersonate', None)
-    impersonate_user = User.query.get(impersonate_user_id)
+    if impersonate_user_id is not None:
+        impersonate_user = User.query.get(impersonate_user_id)
+    else:
+        impersonate_user = None
     user_name = impersonate_user.name if impersonate_user_id else current_user.name
     return dict(impersonate_user=impersonate_user, user_name=user_name)
 

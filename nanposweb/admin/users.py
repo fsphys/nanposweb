@@ -97,7 +97,18 @@ def post():
         db.session.add(new_user)
         db.session.commit()
 
-        flash(f'Created user {form.name.data}')
+        flash(f'Created user {form.name.data}', 'success')
         return redirect(url_for('admin.users.index'))
 
     return 'test'
+
+
+@users_bp.route('/delete/<user_id>')
+@login_required
+@admin_permission.require(http_exception=401)
+def delete(user_id):
+    user = User.query.get(int(user_id))
+    db.session.delete(user)
+    db.session.commit()
+    flash(f'Deleted user "{user.name}"', 'success')
+    return redirect(url_for('admin.users.index'))

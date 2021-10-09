@@ -81,8 +81,8 @@ def edit(product_id):
 @login_required
 @admin_permission.require(http_exception=401)
 def delete(product_id):
-    item = Product.query.filter_by(id=product_id).one()
-    db.session.delete(item)
+    product = Product.query.get(int(product_id))
+    db.session.delete(product)
     db.session.commit()
-    flash(f'Deleted products "{item.name}"', 'success')
+    flash(f'Deleted product "{product.name}"', 'success')
     return redirect(url_for('admin.products.index'))

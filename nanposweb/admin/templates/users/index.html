@@ -11,8 +11,8 @@
             <th scope="col" class="text-center">Card</th>
             <th scope="col" class="text-center">Admin</th>
             <th scope="col" class="text-center">PIN</th>
-            <th class="d-grid">
-                <a role="button" class="btn btn-success btn-sm" href="{{ url_for('admin.users.add') }}">
+            <th class="row">
+                <a role="button" class="btn btn-success btn-sm col mx-1" href="{{ url_for('admin.users.add') }}">
                     <i class="fa-solid fa-plus"></i>
                 </a>
             </th>
@@ -39,9 +39,36 @@
                     <i class="fa-solid fa-id-card-clip"></i>{% endif %}</td>
                 <td class="text-center">{{ macro.render_bool(user.isop) }}</td>
                 <td class="text-center">{% if user.pin is not none %}<i class="fa-solid fa-lock"></i>{% endif %}</td>
-                <td class="text-center"></td>
+                <td class="row">
+                    <button type="button" class="btn btn-danger btn-sm col mx-1" data-bs-toggle="modal"
+                            data-bs-target="#delete{{ user.id }}">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% for user, _balance in users %}
+        <div class="modal fade" id="delete{{ user.id }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="delete{{ user.id }}">Confirm delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete the user "{{ user.name }}"?
+                    </div>
+                    <div class="modal-footer">
+                        <a role="button" class="btn btn-danger"
+                           href="{{ url_for('admin.users.delete', user_id=user.id) }}">
+                            Confirm
+                        </a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

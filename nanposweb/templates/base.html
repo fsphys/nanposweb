@@ -32,13 +32,21 @@
 <div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 10000">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, message in messages %}
+            {% if category == 'message' %}
+                {% set category = 'primary' %}
+            {% endif %}
             {% if category == 'danger' %}
                 {% set name = 'error' %}
+            {% elif category == 'primary' %}
+                {% set name = None %}
             {% else %}
                 {% set name = category %}
             {% endif %}
             <div class="alert alert-{{ category }} alert-dismissible fade show text-center" id="alert" role="alert">
-                <strong class="me-2">{{ name | capitalize }}!</strong>{{ message }}
+                {% if name is not none and name != '' %}
+                <strong class="me-2">{{ name | capitalize }}!</strong>
+                {% endif %}
+                {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         {% endfor %}
