@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, session
 from flask_login import login_required
 from flask_principal import Permission, RoleNeed
 
@@ -23,6 +23,22 @@ def user():
     ).order_by(User.name)
     users = db.session.execute(user_query).all()
     return render_template('user/view.html', users=users)
+
+
+@admin.route('/user/impersonate/<user_id>')
+@login_required
+@admin_permission.require(http_exception=401)
+def impersonate(user_id):
+    session['impersonate'] = user_id
+    return redirect(url_for('main.index'))
+
+
+@admin.route('/user/impersonate/pop')
+@login_required
+@admin_permission.require(http_exception=401)
+def pop_impersonate():
+    session.pop('impersonate', None)
+    return redirect(url_for('admin.user'))
 
 
 @admin.route('/product')

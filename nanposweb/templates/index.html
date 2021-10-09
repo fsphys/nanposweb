@@ -3,10 +3,17 @@
 {% set drink_icons = ['mug-hot', 'whiskey-glass'] %}
 {% set alc_icons = ['beer-mug-empty', 'martini-glass', 'wine-bottle'] %}
 
+{% block pagetitle %}
+    {% if impersonate_user is not none %}
+        <span class="text-danger me-3">Impersonating {{ impersonate_user.name }}</span>
+        <a role="button" class="btn btn-danger" href="{{ url_for('admin.pop_impersonate') }}">Disable</a>
+    {% endif %}
+{% endblock %}
+
 {% block infobar %}
     {% if current_user.is_authenticated %}
         <li class="nav-item">
-            <span class="nav-link text-dark">User: {{ current_user.name }}</span>
+            <span class="nav-link text-dark">User: {{ user_name }}</span>
         </li>
         <li class="nav-item">
             <span class="nav-link text-dark">Balance: {{ macro.render_currency(balance) }}</span>

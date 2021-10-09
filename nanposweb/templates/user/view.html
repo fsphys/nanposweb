@@ -5,6 +5,7 @@
     <table class="table">
         <thead>
         <tr>
+            <th style="width: 8rem">Impersonate</th>
             <th scope="col">Name</th>
             <th scope="col" class="text-end" style="width: 10rem">Balance</th>
             <th scope="col" class="text-center">Card</th>
@@ -15,6 +16,11 @@
         <tbody>
         {% for user, balance in users %}
             <tr>
+                <td>
+                    <a role="button" class="btn btn-primary btn-sm px-4"
+                       href="{{ url_for('admin.impersonate', user_id=user.id) }}"><i
+                            class="fa-solid fa-user-secret"></i></a>
+                </td>
                 <td>{{ user.name }}</td>
                 <td class="text-end">{{ macro.render_currency(balance) }}</td>
                 <td class="text-center">{% if user.card is not none %}

@@ -39,6 +39,8 @@ def logout():
     for key in ('identity.id', 'identity.auth_type'):
         session.pop(key, None)
 
+    session.pop('impersonate', None)
+
     # Tell Flask-Principal the user is anonymous
     identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
     flash('Logged out', 'success')
