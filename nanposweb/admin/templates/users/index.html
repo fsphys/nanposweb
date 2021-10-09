@@ -11,6 +11,11 @@
             <th scope="col" class="text-center">Card</th>
             <th scope="col" class="text-center">Admin</th>
             <th scope="col" class="text-center">PIN</th>
+            <th class="d-grid">
+                <a role="button" class="btn btn-success btn-sm" href="{{ url_for('admin.users.add') }}">
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+            </th>
         </tr>
         </thead>
         <tbody>
@@ -34,6 +39,7 @@
                     <i class="fa-solid fa-id-card-clip"></i>{% endif %}</td>
                 <td class="text-center">{{ macro.render_bool(user.isop) }}</td>
                 <td class="text-center">{% if user.pin is not none %}<i class="fa-solid fa-lock"></i>{% endif %}</td>
+                <td class="text-center"></td>
             </tr>
         {% endfor %}
         </tbody>

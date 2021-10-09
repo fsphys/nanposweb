@@ -5,6 +5,7 @@ from .util import admin_permission
 from ..db import db
 from ..models import User, Revenue
 from .forms import BalanceForm, UserForm
+from ..util import calc_hash
 
 users_bp = Blueprint('users', __name__, url_prefix='/users')
 
@@ -66,3 +67,37 @@ def balance(user_id):
         return redirect(url_for('admin.users.index'))
 
     return render_template('users/balance.html', form=form, user=user)
+
+
+@users_bp.route('/add')
+@login_required
+@admin_permission.require(http_exception=401)
+def add():
+    form = UserForm()
+    return render_template('users/form.html', form=form)
+
+
+@users_bp.route('/', methods=['POST'])
+@login_required
+@admin_permission.require(http_exception=401)
+def post():
+    form = UserForm()
+
+    if form.validate_on_submit():
+        new_user = User()
+        new_user.name = form.name.data
+        new_user.isop = form.isop.data
+
+        if form.pin.data != '':
+            new_user.pin = calc_hash(form.pin.data)
+
+        if form.card.data != '':
+            new_user.card = calc_hash(form.card.data)
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash(f'Created user {form.name.data}')
+        return redirect(url_for('admin.users.index'))
+
+    return 'test'

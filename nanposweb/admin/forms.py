@@ -25,6 +25,7 @@ class UserForm(FlaskForm):
     name = StringField(label='Name', validators=[InputRequired()], render_kw={'placeholder': 'name'}, )
     card = StringField(label='Card ID', render_kw={'placeholder': 'Card ID'}, )
     pin = PasswordField(label='New PIN', render_kw={'placeholder': 'pin'}, )
+    isop = BooleanField(label='Admin', )
 
 
 class BalanceForm(FlaskForm):
