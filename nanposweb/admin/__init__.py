@@ -2,16 +2,16 @@ from flask import Blueprint, render_template, flash, redirect, url_for, session
 from flask_login import login_required
 from flask_principal import Permission, RoleNeed
 
-from .db import db
-from .forms import ProductForm
-from .models import User, Product, Revenue
+from ..db import db
+from ..forms import ProductForm
+from ..models import User, Product, Revenue
 
-admin = Blueprint('admin', __name__, url_prefix='/admin')
+admin_bp = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates')
 
 admin_permission = Permission(RoleNeed('admin'))
 
 
-@admin.route('/user')
+@admin_bp.route('/user')
 @login_required
 @admin_permission.require(http_exception=401)
 def user():
@@ -25,7 +25,7 @@ def user():
     return render_template('user/view.html', users=users)
 
 
-@admin.route('/user/impersonate/<user_id>')
+@admin_bp.route('/user/impersonate/<user_id>')
 @login_required
 @admin_permission.require(http_exception=401)
 def impersonate(user_id):
@@ -33,7 +33,7 @@ def impersonate(user_id):
     return redirect(url_for('main.index'))
 
 
-@admin.route('/user/impersonate/pop')
+@admin_bp.route('/user/impersonate/pop')
 @login_required
 @admin_permission.require(http_exception=401)
 def pop_impersonate():
@@ -41,7 +41,7 @@ def pop_impersonate():
     return redirect(url_for('admin.user'))
 
 
-@admin.route('/product')
+@admin_bp.route('/product')
 @login_required
 @admin_permission.require(http_exception=401)
 def product():
@@ -49,7 +49,7 @@ def product():
     return render_template('product/view.html', products=products)
 
 
-@admin.route('/product', methods=['POST'])
+@admin_bp.route('/product', methods=['POST'])
 @login_required
 @admin_permission.require(http_exception=401)
 def product_post():
@@ -84,7 +84,7 @@ def product_post():
     return redirect(url_for('admin.product'))
 
 
-@admin.route('/product/add')
+@admin_bp.route('/product/add')
 @login_required
 @admin_permission.require(http_exception=401)
 def product_add():
@@ -92,7 +92,7 @@ def product_add():
     return render_template('product/form.html', form=form, edit=False)
 
 
-@admin.route('/product/edit/<product_id>')
+@admin_bp.route('/product/edit/<product_id>')
 @login_required
 @admin_permission.require(http_exception=401)
 def product_edit(product_id):
@@ -109,7 +109,7 @@ def product_edit(product_id):
     return render_template('product/form.html', form=form, edit=True)
 
 
-@admin.route('/product/delete/<product_id>')
+@admin_bp.route('/product/delete/<product_id>')
 @login_required
 @admin_permission.require(http_exception=401)
 def product_delete(product_id):

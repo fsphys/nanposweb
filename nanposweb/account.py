@@ -6,10 +6,10 @@ from .forms import PinForm, CardForm
 from .models import Revenue, Product
 from .util import check_hash, calc_hash
 
-account = Blueprint('account', __name__, url_prefix='/account')
+account_bp = Blueprint('account', __name__, url_prefix='/account')
 
 
-@account.route('/')
+@account_bp.route('/')
 @login_required
 def index():
     stmt = db.select(db.func.sum(Revenue.amount)).where(Revenue.user == current_user.id)
@@ -20,7 +20,7 @@ def index():
     return render_template('account/index.html', balance=balance, revenues=revenues)
 
 
-@account.route('/pin', methods=['GET', 'POST'])
+@account_bp.route('/pin', methods=['GET', 'POST'])
 @login_required
 def pin():
     form = PinForm()
@@ -47,7 +47,7 @@ def pin():
     return render_template('account/change_pin.html', form=form)
 
 
-@account.route('/card', methods=['GET', 'POST'])
+@account_bp.route('/card', methods=['GET', 'POST'])
 @login_required
 def card():
     user_card = 'set' if current_user.card else ''

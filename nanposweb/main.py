@@ -7,10 +7,10 @@ from .forms import MainForm
 from .models import Product, Revenue, User
 from .util import format_currency
 
-main = Blueprint('main', __name__)
+main_bp = Blueprint('main', __name__)
 
 
-@main.context_processor
+@main_bp.context_processor
 def impersonate():
     impersonate_user_id = session.get('impersonate', None)
     impersonate_user = User.query.get(impersonate_user_id)
@@ -18,7 +18,7 @@ def impersonate():
     return dict(impersonate_user=impersonate_user, user_name=user_name)
 
 
-@main.route('/')
+@main_bp.route('/')
 @login_required
 def index():
     impersonate_user_id = session.get('impersonate', None)
@@ -35,7 +35,7 @@ def index():
     return render_template('index.html', products=products, balance=balance, form=form, view_all=view_all)
 
 
-@main.route('/', methods=['POST'])
+@main_bp.route('/', methods=['POST'])
 @login_required
 def index_post():
     impersonate_user_id = session.get('impersonate', None)

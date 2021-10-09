@@ -5,11 +5,11 @@ from flask import Flask
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, identity_loaded, UserNeed, RoleNeed
 
-from .account import account as account_blueprint
-from .admin import admin as admin_blueprint
-from .auth import auth as auth_blueprint
+from .account import account_bp as account_blueprint
+from .admin import admin_bp as admin_blueprint
+from .auth import auth_bp as auth_blueprint
 from .db import db
-from .main import main as main_blueprint
+from .main import main_bp as main_blueprint
 from .models import User
 from .util import format_currency
 

@@ -6,10 +6,10 @@ from .forms import LoginForm
 from .models import User
 from .util import check_hash
 
-auth = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__)
 
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
 
@@ -29,7 +29,7 @@ def login():
     return render_template('login.html', form=form)
 
 
-@auth.route('/logout')
+@auth_bp.route('/logout')
 @login_required
 def logout():
     logout_user()
