@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required
 
+from .forms import ProductForm
 from .util import admin_permission
 from ..db import db
-from .forms import ProductForm
 from ..models import Product
 
 products_bp = Blueprint('products', __name__, url_prefix='/products')

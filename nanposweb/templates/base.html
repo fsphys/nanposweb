@@ -44,7 +44,7 @@
             {% endif %}
             <div class="alert alert-{{ category }} alert-dismissible fade show text-center" id="alert" role="alert">
                 {% if name is not none and name != '' %}
-                <strong class="me-2">{{ name | capitalize }}!</strong>
+                    <strong class="me-2">{{ name | capitalize }}!</strong>
                 {% endif %}
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
