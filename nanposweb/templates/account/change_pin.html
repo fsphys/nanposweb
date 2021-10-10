@@ -4,7 +4,20 @@
     <div class="d-flex justify-content-center">
         <form class="w-50" method="post" action="{{ url_for('account.pin') }}">
             {{ form.csrf_token }}
-            {{ macro.render_field(form.old_pin) }}
+            <div class="row g-3 mb-3">
+                <div class="col-9">
+                    <div class="form-floating">
+                        {{ form.old_pin(class="form-control") }}
+                        {{ form.old_pin.label }}
+                    </div>
+                </div>
+                <div class="col-3 p-3">
+                    <div class="form-check">
+                        {{ form.unset_pin(class="form-check-input") }}
+                        {{ form.unset_pin.label }}
+                    </div>
+                </div>
+            </div>
             {{ macro.render_field(form.new_pin) }}
             {{ macro.render_field(form.confirm_pin) }}
             <div class="row mt-3">

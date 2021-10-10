@@ -26,6 +26,7 @@ class PinForm(FlaskForm):
         pass
 
     old_pin = PasswordField(label='Old PIN', validators=[InputRequired()], render_kw={'placeholder': 'pin'}, )
+    unset_pin = BooleanField(label='Unset PIN', )
     new_pin = PasswordField(label='New PIN', render_kw={'placeholder': 'pin'}, )
     confirm_pin = PasswordField(label='Confirm new PIN', render_kw={'placeholder': 'pin'}, )
 
@@ -35,3 +36,4 @@ class CardForm(FlaskForm):
         pass
 
     card_number = StringField(label='Card ID', render_kw={'placeholder': 'Card ID'}, )
+    unset_card = BooleanField(label='Unset Card', )

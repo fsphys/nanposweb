@@ -4,7 +4,20 @@
     <div class="d-flex justify-content-center">
         <form class="w-50" method="post" action="{{ url_for('account.card') }}">
             {{ form.csrf_token }}
-            {{ macro.render_field(form.card_number) }}
+            <div class="row g-3 mb-3">
+                <div class="col-9">
+                    <div class="form-floating">
+                        {{ form.card_number(class="form-control") }}
+                        {{ form.card_number.label }}
+                    </div>
+                </div>
+                <div class="col-3 p-3">
+                    <div class="form-check">
+                        {{ form.unset_card(class="form-check-input") }}
+                        {{ form.unset_card.label }}
+                    </div>
+                </div>
+            </div>
             <div class="row mt-3">
                 <button type="submit" class="col mx-3 btn btn-success">Change Card</button>
                 <a role="button" href="{{ url_for('account.index') }}" class="col mx-3 btn btn-secondary">Cancel</a>
