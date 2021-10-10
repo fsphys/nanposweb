@@ -24,6 +24,45 @@ def index():
     return render_template('users/index.html', users=users_list)
 
 
+@users_bp.route('/', methods=['POST'])
+@login_required
+@admin_permission.require(http_exception=401)
+def post():
+    form = UserForm()
+    if not form.validate_on_submit():
+        flash('PANIC', 'danger')
+        return render_template('products/form.html', form=form, edit=True)
+
+    create = False
+    user = User.query.filter_by(id=form.id.data).one_or_none()
+    if user is None:
+        create = True
+        user = User()
+
+    user.name = form.name.data
+    user.isop = form.isop.data
+
+    if form.unset_pin.data:
+        user.pin = None
+    elif form.pin.data != '':
+        user.pin = calc_hash(form.pin.data)
+
+    if form.unset_card.data:
+        user.card = None
+    elif form.card.data != '':
+        user.card = calc_hash(form.card.data)
+
+    if create:
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Created user {form.name.data}', 'success')
+    else:
+        db.session.commit()
+        flash(f'Updated user "{form.name.data}"', 'success')
+
+    return redirect(url_for('admin.users.index'))
+
+
 @users_bp.route('/impersonate/<user_id>')
 @login_required
 @admin_permission.require(http_exception=401)
@@ -74,33 +113,21 @@ def balance(user_id):
 @admin_permission.require(http_exception=401)
 def add():
     form = UserForm()
-    return render_template('users/form.html', form=form)
+    return render_template('users/form.html', form=form, edit=False)
 
 
-@users_bp.route('/', methods=['POST'])
+@users_bp.route('/edit/<user_id>')
 @login_required
 @admin_permission.require(http_exception=401)
-def post():
-    form = UserForm()
+def edit(user_id):
+    user = User.query.get(int(user_id))
+    form = UserForm(
+        id=user.id,
+        name=user.name,
+        isop=user.isop
+    )
 
-    if form.validate_on_submit():
-        new_user = User()
-        new_user.name = form.name.data
-        new_user.isop = form.isop.data
-
-        if form.pin.data != '':
-            new_user.pin = calc_hash(form.pin.data)
-
-        if form.card.data != '':
-            new_user.card = calc_hash(form.card.data)
-
-        db.session.add(new_user)
-        db.session.commit()
-
-        flash(f'Created user {form.name.data}', 'success')
-        return redirect(url_for('admin.users.index'))
-
-    return 'test'
+    return render_template('users/form.html', form=form, edit=True)
 
 
 @users_bp.route('/delete/<user_id>')

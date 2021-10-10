@@ -22,9 +22,12 @@ class UserForm(FlaskForm):
     class Meta(AutoAttrMeta):
         pass
 
+    id = IntegerField(label='ID', render_kw={'placeholder': 'id', 'readonly': ''}, )
     name = StringField(label='Name', validators=[InputRequired()], render_kw={'placeholder': 'name'}, )
     card = StringField(label='Card ID', render_kw={'placeholder': 'Card ID'}, )
-    pin = PasswordField(label='New PIN', render_kw={'placeholder': 'pin'}, )
+    unset_card = BooleanField(label='Unset Card', )
+    pin = PasswordField(label='PIN', render_kw={'placeholder': 'pin'}, )
+    unset_pin = BooleanField(label='Unset PIN', )
     isop = BooleanField(label='Admin', )
 
 

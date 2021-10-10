@@ -12,9 +12,38 @@
     <div class="d-flex justify-content-center">
         <form class="w-50" method="post" action="{{ url_for('admin.users.post') }}">
             {{ form.csrf_token }}
+            {% if edit %}
+                {{ macro.render_field(form.id) }}
+            {% endif %}
             {{ macro.render_field(form.name) }}
-            {{ macro.render_field(form.card) }}
-            {{ macro.render_field(form.pin) }}
+            <div class="row g-3 mb-3">
+                <div class="col-9">
+                    <div class="form-floating">
+                        {{ form.card(class="form-control") }}
+                        {{ form.card.label }}
+                    </div>
+                </div>
+                <div class="col-3 p-3">
+                    <div class="form-check">
+                        {{ form.unset_card(class="form-check-input") }}
+                        {{ form.unset_card.label }}
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-9">
+                    <div class="form-floating">
+                        {{ form.pin(class="form-control") }}
+                        {{ form.pin.label }}
+                    </div>
+                </div>
+                <div class="col-3 p-3">
+                    <div class="form-check">
+                        {{ form.unset_pin(class="form-check-input") }}
+                        {{ form.unset_pin.label }}
+                    </div>
+                </div>
+            </div>
             {{ macro.render_checkbox(form.isop) }}
             <div class="row mt-3">
                 <button type="submit" class="col mx-3 btn btn-success">
