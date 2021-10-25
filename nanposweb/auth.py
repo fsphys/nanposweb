@@ -47,7 +47,7 @@ def logout():
 
     # Tell Flask-Principal the user is anonymous
     identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
-    flash('Logged out', 'success')
+    flash('Logged out')
 
     if session['terminal']:
         return redirect(url_for('auth.login', terminal=True))

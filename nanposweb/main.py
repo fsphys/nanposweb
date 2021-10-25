@@ -74,4 +74,7 @@ def index_post():
     session.pop('impersonate', None)
 
     flash(f'Bought {product.name} for {format_currency(product.price)}{user_message}', 'success')
-    return redirect(url_for('main.index'))
+    if session['terminal']:
+        return redirect(url_for('auth.logout'))
+    else:
+        return redirect(url_for('main.index'))
