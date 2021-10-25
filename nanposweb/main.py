@@ -56,15 +56,21 @@ def index_post():
         return redirect(url_for('main.index'))
 
     if form.ean.data:
-        product = Product.query.filter_by(ean=form.ean.data).first()
+        ean = form.ean.data
+        product = Product.query.filter_by(ean=ean).first()
+        if product is None:
+            flash(f'No product with ean {ean} known.', 'danger')
+            return redirect(url_for('main.index'))
     else:
         product_id = request.form.get('product_id')
         if product_id is None:
             flash('No product id given', 'danger')
+            return redirect(url_for('main.index'))
 
         product = Product.query.filter_by(id=product_id).first()
         if product is None:
             flash(f'No product with id {product_id} known.', 'danger')
+            return redirect(url_for('main.index'))
 
     rev = Revenue(user=user_id, product=product.id, amount=-product.price)
     db.session.add(rev)
