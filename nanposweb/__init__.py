@@ -60,7 +60,7 @@ def create_app(test_config=None):
         else:
             flash(login_manager.login_message, category=login_manager.login_message_category)
 
-        if session['terminal']:
+        if session.get('terminal', False):
             return redirect(url_for('auth.login', terminal=True))
         else:
             return redirect(url_for('auth.login'))

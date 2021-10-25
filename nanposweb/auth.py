@@ -49,7 +49,7 @@ def logout():
     identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
     flash('Logged out')
 
-    if session['terminal']:
+    if session.get('terminal', False):
         return redirect(url_for('auth.login', terminal=True))
     else:
         return redirect(url_for('auth.login'))

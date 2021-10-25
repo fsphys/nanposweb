@@ -33,7 +33,7 @@
 {% block content %}
     <form action="{{ url_for('main.index') }}" method="post">
         {{ form.csrf_token }}
-        {% if session['terminal'] %}
+        {% if session.get('terminal', False) %}
         <div class="row mt-2 mb-3 form">
             <div class="col">
                 {{ form.ean(class="form-control")  }}

@@ -5,7 +5,7 @@
         <div class="container">
             <a href="{{ url_for('main.index') }}" class="navbar-brand">
                 <i class="fa-solid fa-cash-register me-3 d-inline-block align-text-top"></i>
-                NANPOS Web{% if session['terminal'] %} Terminal{% endif %}
+                NANPOS Web{% if session.get('terminal', False) %} Terminal{% endif %}
             </a>
 
             <ul class="nav col-auto d-flex text-dark text-decoration-none align-items-center fs-5">

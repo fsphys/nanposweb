@@ -7,7 +7,7 @@
         <div class="mb-3">
             <i class="mb-4 fas fa-cash-register fa-7x"></i>
             <h1>NANPOS Web</h1>
-            {% if session['terminal'] %}
+            {% if session.get('terminal', False) %}
             <h2>Terminal</h2>
             {% endif %} 
             <h2>At least better than Counter Solutions...</h2>
@@ -23,7 +23,7 @@
                 {{ form.pin(class='form-control') }}
                 {{ form.pin.label }}
             </div>
-            {% if session['terminal'] == False %}
+            {% if session.get('terminal', False) == False %}
             <div class="checkbox mb-3">
                 {{ form.remember }}
                 {{ form.remember.label }}

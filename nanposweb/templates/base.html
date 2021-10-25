@@ -58,7 +58,7 @@
     {% endblock %}
 </main>
 
-{% if session['terminal'] == False %}
+{% if session.get('terminal', False) == False %}
 <footer class="footer fixed-bottom py-3 bg-light">
     <div class="container">
         <div class="row">
@@ -90,7 +90,7 @@
         })
     })
 </script>
-{% if session['terminal'] and request.endpoint != 'auth.login' and config.TERMINAL_LOGOUT_TIMEOUT is not none %}
+{% if session.get('terminal', False) and request.endpoint != 'auth.login' and config.TERMINAL_LOGOUT_TIMEOUT is not none %}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         let target = "{{ url_for('auth.logout') }}"
