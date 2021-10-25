@@ -21,12 +21,34 @@ def login():
             flash('Logged in', 'success')
 
             identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
+            session['terminal'] = False
 
             return redirect(request.args.get('next') or url_for('main.index'))
         else:
             flash('Please check your login details and try again.', 'danger')
 
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, terminal=False)
+
+
+@auth_bp.route('/terminal', methods=['GET', 'POST'])
+def terminal():
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(name=form.username.data).one_or_none()
+
+        if user and check_hash(user.pin, form.pin.data):
+            login_user(user, remember=form.remember.data)
+            flash('Logged in', 'success')
+
+            identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
+            session['terminal'] = True
+
+            return redirect(request.args.get('next') or url_for('main.index'))
+        else:
+            flash('Please check your login details and try again.', 'danger')
+
+    return render_template('login.html', form=form, terminal=True)
 
 
 @auth_bp.route('/logout')
@@ -43,4 +65,8 @@ def logout():
     # Tell Flask-Principal the user is anonymous
     identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
     flash('Logged out', 'success')
+    if session['terminal']:
+        session.pop('terminal', None)
+        return redirect(url_for('auth.terminal'))
+    session.pop('terminal', None)
     return redirect(url_for('auth.login'))

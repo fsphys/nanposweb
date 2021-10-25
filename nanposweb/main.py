@@ -55,13 +55,16 @@ def index_post():
         flash('PANIC', 'danger')
         return redirect(url_for('main.index'))
 
-    product_id = request.form.get('product_id')
-    if product_id is None:
-        flash('No product id given', 'danger')
+    if form.ean.data:
+        product = Product.query.filter_by(ean=form.ean.data).first()
+    else:
+        product_id = request.form.get('product_id')
+        if product_id is None:
+            flash('No product id given', 'danger')
 
-    product = Product.query.filter_by(id=product_id).first()
-    if product is None:
-        flash(f'No product with id {product_id} known.', 'danger')
+        product = Product.query.filter_by(id=product_id).first()
+        if product is None:
+            flash(f'No product with id {product_id} known.', 'danger')
 
     rev = Revenue(user=user_id, product=product.id, amount=-product.price)
     db.session.add(rev)

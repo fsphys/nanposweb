@@ -18,7 +18,7 @@ class MainForm(FlaskForm):
     class Meta(AutoAttrMeta):
         pass
 
-    pass
+    ean = StringField(label='EAN', render_kw={'placeholder': 'EAN', 'autofocus': True}, )
 
 
 class PinForm(FlaskForm):
