@@ -24,6 +24,11 @@ def create_app(test_config=None):
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         SQLALCHEMY_DATABASE_URI='postgresql://nanpos:nanpos@localhost:5432/nanpos',
     )
+    if app.env != 'production':
+        app.config.from_mapping(
+            SESSION_COOKIE_SECURE=False,
+            REMEMBER_COOKIE_SECURE=False,
+        )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
