@@ -4,7 +4,7 @@ from flask_login import login_required
 from .forms import BalanceForm, UserForm
 from .util import admin_permission
 from ..db import db
-from ..models import User, Revenue
+from ..db.models import User, Revenue
 from ..util import calc_hash
 
 users_bp = Blueprint('users', __name__, url_prefix='/users')
