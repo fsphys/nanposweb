@@ -1,7 +1,7 @@
 import os
 from importlib import metadata
 
-from flask import Flask
+from flask import Flask, flash, session, redirect, url_for
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, identity_loaded, UserNeed, RoleNeed
 
@@ -48,9 +48,21 @@ def create_app(test_config=None):
     Principal(app)
 
     login_manager = LoginManager()
-    login_manager.login_view = 'auth.login'
     login_manager.login_message_category = 'info'
     login_manager.init_app(app)
+
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        if login_manager.localize_callback is not None:
+            flash(login_manager.localize_callback(login_manager.login_message),
+                  category=login_manager.login_message_category)
+        else:
+            flash(login_manager.login_message, category=login_manager.login_message_category)
+
+        if session['terminal']:
+            return redirect(url_for('auth.login', terminal=True))
+        else:
+            return redirect(url_for('auth.login'))
 
     @login_manager.user_loader
     def load_user(user_id):
