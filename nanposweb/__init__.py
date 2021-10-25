@@ -23,6 +23,7 @@ def create_app(test_config=None):
         REMEMBER_COOKIE_SECURE=True,
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         SQLALCHEMY_DATABASE_URI='postgresql://nanpos:nanpos@localhost:5432/nanpos',
+        TERMINAL_LOGOUT_TIMEOUT=30,  # logout timeout for Terminal mode in seconds, set to none to disable
     )
     if app.env != 'production':
         app.config.from_mapping(

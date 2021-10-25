@@ -90,5 +90,16 @@
         })
     })
 </script>
+{% if session['terminal'] and request.endpoint != 'auth.login' and config.TERMINAL_LOGOUT_TIMEOUT is not none %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let target = "{{ url_for('auth.logout') }}"
+        let timeout = {{ (config.TERMINAL_LOGOUT_TIMEOUT | int) * 1000 }}
+        setTimeout(function () {
+            window.location.href = target
+        }, timeout)
+    })
+</script>
+{% endif %}
 </body>
 </html>

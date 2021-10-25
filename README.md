@@ -15,6 +15,10 @@ import secrets
 secrets.token_urlsafe(16)
 ```
 
+Other customizable and their default values are:
+````python
+TERMINAL_LOGOUT_TIMEOUT = 30  # logout timeout for Terminal mode in seconds, set to none to disable
+````
 ## Init
 
 create db-tables:
