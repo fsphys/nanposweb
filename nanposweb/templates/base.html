@@ -79,12 +79,16 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        let alertNode = document.querySelector('#alert');
-        let alert = new bootstrap.Alert(alertNode);
-        setTimeout(function () {
-            alert.close();
-        }, 4000);
-    });
+        let alertNodes = document.querySelectorAll('#alert')
+        let timeout = 4000
+        let additionalTimeout = 2000
+        alertNodes.forEach(function (node, i) {
+            let alert = new bootstrap.Alert(node)
+            setTimeout(function () {
+                alert.close()
+            }, (timeout + i * additionalTimeout))
+        })
+    })
 </script>
 </body>
 </html>
