@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, PasswordField, SubmitField
+from wtforms.fields.html5 import IntegerField
 from wtforms.validators import InputRequired
 from wtforms_html5 import AutoAttrMeta
 
@@ -18,7 +19,7 @@ class MainForm(FlaskForm):
     class Meta(AutoAttrMeta):
         pass
 
-    ean = StringField(label='EAN', render_kw={'placeholder': 'EAN', 'autofocus': True}, )
+    ean = IntegerField(label='EAN', render_kw={'placeholder': 'EAN', 'autofocus': True}, )
 
 
 class PinForm(FlaskForm):
