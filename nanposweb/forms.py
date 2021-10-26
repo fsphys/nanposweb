@@ -10,7 +10,7 @@ class LoginForm(FlaskForm):
         pass
 
     username = StringField(label='Username', validators=[InputRequired()],
-                           render_kw={'placeholder': 'Username', 'autofocus': True, 'inputmode': 'none'}, )
+                           render_kw={'placeholder': 'Username', 'autofocus': True}, )
     pin = PasswordField(label='PIN', validators=[InputRequired()], render_kw={'placeholder': 'PIN'}, )
     remember = BooleanField(label='Remember me', )
     submit = SubmitField(label='Sign in', )
@@ -20,7 +20,7 @@ class MainForm(FlaskForm):
     class Meta(AutoAttrMeta):
         pass
 
-    ean = IntegerField(label='EAN', render_kw={'placeholder': 'EAN', 'autofocus': True, 'inputmode': 'none'}, )
+    ean = IntegerField(label='EAN', render_kw={'placeholder': 'EAN', 'autofocus': True}, )
 
 
 class PinForm(FlaskForm):
