@@ -92,7 +92,7 @@ def balance(user_id):
 
         if form.recharge.data:
             factor = 1
-            flash(f'Added {euros:.2f} € to {user.name}s balance', 'success')
+            flash(f'Added {euros:.2f} € for {user.name}', 'success')
         elif form.charge.data:
             factor = -1
             flash(f'Charged {euros:.2f} € from {user.name}', 'success')
