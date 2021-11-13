@@ -1,14 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, PasswordField, SubmitField
-from wtforms.fields.html5 import IntegerField
+from wtforms import StringField, BooleanField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import InputRequired, Optional
-from wtforms_html5 import AutoAttrMeta
 
 
 class LoginForm(FlaskForm):
-    class Meta(AutoAttrMeta):
-        pass
-
     username = StringField(label='Username', validators=[InputRequired()],
                            render_kw={'placeholder': 'Username', 'autofocus': True}, )
     pin = PasswordField(label='PIN', validators=[InputRequired()], render_kw={'placeholder': 'PIN'}, )
@@ -17,16 +12,10 @@ class LoginForm(FlaskForm):
 
 
 class MainForm(FlaskForm):
-    class Meta(AutoAttrMeta):
-        pass
-
     ean = IntegerField(label='EAN', validators=[Optional()], render_kw={'placeholder': 'EAN', 'autofocus': True}, )
 
 
 class PinForm(FlaskForm):
-    class Meta(AutoAttrMeta):
-        pass
-
     old_pin = PasswordField(label='Old PIN', validators=[InputRequired()], render_kw={'placeholder': 'pin'}, )
     unset_pin = BooleanField(label='Unset PIN', )
     new_pin = PasswordField(label='New PIN', render_kw={'placeholder': 'pin'}, )
@@ -34,8 +23,5 @@ class PinForm(FlaskForm):
 
 
 class CardForm(FlaskForm):
-    class Meta(AutoAttrMeta):
-        pass
-
     card_number = StringField(label='Card ID', render_kw={'placeholder': 'Card ID'}, )
     unset_card = BooleanField(label='Unset Card', )
