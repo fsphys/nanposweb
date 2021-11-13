@@ -10,8 +10,8 @@ from .admin import admin_bp as admin_blueprint
 from .auth import auth_bp as auth_blueprint
 from .db import db
 from .db.models import User
+from .helpers import format_currency
 from .main import main_bp as main_blueprint
-from .util import format_currency
 
 
 def create_app(test_config=None):

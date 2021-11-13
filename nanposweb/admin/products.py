@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required
 
 from .forms import ProductForm
-from .util import admin_permission
+from .helpers import admin_permission
 from ..db import db
 from ..db.models import Product
 

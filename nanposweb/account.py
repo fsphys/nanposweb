@@ -5,7 +5,7 @@ from wtforms.validators import InputRequired
 from .db import db
 from .db.models import Revenue, Product
 from .forms import PinForm, CardForm
-from .util import check_hash, calc_hash
+from .helpers import check_hash, calc_hash
 
 account_bp = Blueprint('account', __name__, url_prefix='/account')
 

@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from flask_login import current_user, login_required
 
-from .admin.util import admin_permission
+from .admin.helpers import admin_permission
 from .db import db
 from .db.models import Product, Revenue, User
 from .forms import MainForm
-from .util import format_currency
+from .helpers import format_currency
 
 main_bp = Blueprint('main', __name__)
 

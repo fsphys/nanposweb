@@ -4,7 +4,7 @@ from flask_principal import identity_changed, Identity, AnonymousIdentity
 
 from .db.models import User
 from .forms import LoginForm
-from .util import check_hash
+from .helpers import check_hash
 
 auth_bp = Blueprint('auth', __name__)
 
