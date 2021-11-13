@@ -26,6 +26,62 @@
 <body class="d-flex h-100 flex-column">
 <header>
     {% block header %}
+        <nav class="navbar navbar-light bg-light fixed-top">
+            <div class="container">
+                <a href="{{ url_for('main.index') }}" class="navbar-brand">
+                    <i class="fa-solid fa-cash-register me-3 d-inline-block align-text-top"></i>
+                    NANPOS Web{% if session.get('terminal', False) %} Terminal{% endif %}
+                </a>
+
+                <ul class="nav col-auto d-flex text-dark text-decoration-none align-items-center fs-5">
+                    {% block pagetitle %}{% endblock %}
+                </ul>
+
+                <ul class="nav col-auto ms-auto justify-content-end">
+                    {% block infobar %}
+                    {% endblock %}
+                </ul>
+
+                <div class="col-auto ms-3 text-end">
+                    {% block additional_buttons %}
+                    {% endblock %}
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.isop %}
+                            <div class="btn-group me-2" role="group">
+                                <button id="admin_dropdown" type="button"
+                                        class="btn btn-outline-primary dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="admin_dropdown">
+                                    <li><a class="dropdown-item" href="{{ url_for('admin.users.index') }}">Users</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                           href="{{ url_for('admin.products.index') }}">Products</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <div class="btn-group me-2" role="group">
+                            <button id="account_dropdown" type="button"
+                                    class="btn btn-outline-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                Account
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="account_dropdown">
+                                <li><a class="dropdown-item" href="{{ url_for('account.index') }}">Revenues</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('account.card') }}">Change Card</a>
+                                <li><a class="dropdown-item" href="{{ url_for('account.pin') }}">Change PIN</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <a href="{{ url_for('auth.logout') }}" role="button" class="btn btn-primary">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}" role="button" class="btn btn-primary">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
     {% endblock %}
 </header>
 
@@ -55,6 +111,10 @@
 
 <main>
     {% block main %}
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
     {% endblock %}
 </main>
 
