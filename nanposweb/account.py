@@ -54,7 +54,7 @@ def pin():
             flash('Changed PIN', 'success')
 
         db.session.commit()
-        return redirect(url_for('account.index'))
+        return redirect(url_for('main.index'))
 
     return render_template('account/change_pin.html', form=form)
 
@@ -73,6 +73,6 @@ def card():
             flash('Changed Card', 'success')
 
         db.session.commit()
-        return redirect(url_for('account.index'))
+        return redirect(url_for('main.index'))
 
     return render_template('account/change_card.html', form=form)

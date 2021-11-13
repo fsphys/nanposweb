@@ -5,13 +5,14 @@ from flask import Flask, flash, session, redirect, url_for
 from flask_login import LoginManager, current_user
 from flask_principal import Principal, identity_loaded, UserNeed, RoleNeed
 
-from .account import account_bp as account_blueprint
-from .admin import admin_bp as admin_blueprint
-from .auth import auth_bp as auth_blueprint
+from .account import account_bp
+from .admin import admin_bp
+from .auth import auth_bp
 from .db import db
 from .db.models import User
 from .helpers import format_currency
-from .main import main_bp as main_blueprint
+from .main import main_bp
+from .utils import utils_bp
 
 
 def create_app(test_config=None):
@@ -93,16 +94,19 @@ def create_app(test_config=None):
         return dict(version=version)
 
     # blueprint for auth routes in our app
-    app.register_blueprint(auth_blueprint)
+    app.register_blueprint(auth_bp)
 
     # blueprint for main parts of app
-    app.register_blueprint(main_blueprint)
+    app.register_blueprint(main_bp)
 
     # blueprint for account management
-    app.register_blueprint(account_blueprint)
+    app.register_blueprint(account_bp)
 
     # blueprint for admin parts of app
-    app.register_blueprint(admin_blueprint)
+    app.register_blueprint(admin_bp)
+
+    # blueprint for utils part of app
+    app.register_blueprint(utils_bp)
 
     return app
 

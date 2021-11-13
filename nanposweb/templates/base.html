@@ -70,11 +70,23 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="account_dropdown">
                                 <li><a class="dropdown-item" href="{{ url_for('account.index') }}">Revenues</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for('account.card') }}">Change Card</a>
-                                <li><a class="dropdown-item" href="{{ url_for('account.pin') }}">Change PIN</a>
-                                </li>
+                                <li><a class="dropdown-item" href="{{ url_for('account.card') }}">Change Card</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('account.pin') }}">Change PIN</a></li>
                             </ul>
                         </div>
+                    {% endif %}
+                        <div class="btn-group me-2" role="group">
+                            <button id="util_dropdown" type="button"
+                                    class="btn btn-outline-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                Utils
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="account_dropdown">
+                                <li><a class="dropdown-item" href="#">Bank Account</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('utils.qrcode') }}">QR-Code</a></li>
+                            </ul>
+                        </div>
+                    {% if current_user.is_authenticated %}
                         <a href="{{ url_for('auth.logout') }}" role="button" class="btn btn-primary">Logout</a>
                     {% else %}
                         <a href="{{ url_for('auth.login') }}" role="button" class="btn btn-primary">Login</a>
