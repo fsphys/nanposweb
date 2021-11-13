@@ -3,8 +3,8 @@ from flask_login import current_user, login_required
 
 from .admin.util import admin_permission
 from .db import db
-from .forms import MainForm
 from .db.models import Product, Revenue, User
+from .forms import MainForm
 from .util import format_currency
 
 main_bp = Blueprint('main', __name__)

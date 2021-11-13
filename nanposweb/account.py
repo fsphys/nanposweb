@@ -3,8 +3,8 @@ from flask_login import current_user, login_required
 from wtforms.validators import InputRequired
 
 from .db import db
-from .forms import PinForm, CardForm
 from .db.models import Revenue, Product
+from .forms import PinForm, CardForm
 from .util import check_hash, calc_hash
 
 account_bp = Blueprint('account', __name__, url_prefix='/account')

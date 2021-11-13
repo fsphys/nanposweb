@@ -59,16 +59,22 @@
 </main>
 
 {% if session.get('terminal', False) == False %}
-<footer class="footer fixed-bottom py-3 bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-auto text-muted">Version {{ version }}.</div>
-            <div class="col-auto text-muted">Build with <i class="fa-solid fa-heart"></i> & <i class="fa-solid fa-mug-hot"></i> by <a href="https://twitter.com/ds_rimpf">domrim</a>.</div>
-            <div class="col-auto text-muted">Released under the <a href="https://gitlab.com/domrim/nanposweb/-/blob/main/LICENSE">MIT License</a>.</div>
-            <div class="col-auto text-muted">Code availiable on <a href="https://gitlab.com/domrim/nanposweb">Gitlab</a>.</div>
+    <footer class="footer fixed-bottom py-3 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-auto text-muted">Version {{ version }}.</div>
+                <div class="col-auto text-muted">Build with <i class="fa-solid fa-heart"></i> & <i
+                        class="fa-solid fa-mug-hot"></i> by <a href="https://twitter.com/ds_rimpf">domrim</a>.
+                </div>
+                <div class="col-auto text-muted">Released under the <a
+                        href="https://gitlab.com/domrim/nanposweb/-/blob/main/LICENSE">MIT License</a>.
+                </div>
+                <div class="col-auto text-muted">Code availiable on <a
+                        href="https://gitlab.com/domrim/nanposweb">Gitlab</a>.
+                </div>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
 {% endif %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -91,15 +97,15 @@
     })
 </script>
 {% if session.get('terminal', False) and request.endpoint != 'auth.login' and config.TERMINAL_LOGOUT_TIMEOUT is not none %}
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let target = "{{ url_for('auth.logout') }}"
-        let timeout = {{ (config.TERMINAL_LOGOUT_TIMEOUT | int) * 1000 }}
-        setTimeout(function () {
-            window.location.href = target
-        }, timeout)
-    })
-</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let target = "{{ url_for('auth.logout') }}"
+            let timeout = {{ (config.TERMINAL_LOGOUT_TIMEOUT | int) * 1000 }}
+                setTimeout(function () {
+                    window.location.href = target
+                }, timeout)
+        })
+    </script>
 {% endif %}
 </body>
 </html>

@@ -34,14 +34,14 @@
     <form action="{{ url_for('main.index') }}" method="post">
         {{ form.csrf_token }}
         {% if session.get('terminal', False) %}
-        <div class="row mt-2 mb-3 form">
-            <div class="col">
-                {{ form.ean(class="form-control")  }}
+            <div class="row mt-2 mb-3 form">
+                <div class="col">
+                    {{ form.ean(class="form-control") }}
+                </div>
+                <div class="col-auto">
+                    <input type="submit" role="button" class="btn btn-primary">
+                </div>
             </div>
-            <div class="col-auto">
-                <input type="submit" role="button" class="btn btn-primary">
-            </div>
-        </div>
         {% endif %}
         <div class="row row-cols-4 g-3">
             {% for product in products %}

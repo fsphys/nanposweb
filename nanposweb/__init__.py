@@ -9,8 +9,8 @@ from .account import account_bp as account_blueprint
 from .admin import admin_bp as admin_blueprint
 from .auth import auth_bp as auth_blueprint
 from .db import db
-from .main import main_bp as main_blueprint
 from .db.models import User
+from .main import main_bp as main_blueprint
 from .util import format_currency
 
 

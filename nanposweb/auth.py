@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 from flask_login import login_required, logout_user, login_user, current_user
 from flask_principal import identity_changed, Identity, AnonymousIdentity
 
-from .forms import LoginForm
 from .db.models import User
+from .forms import LoginForm
 from .util import check_hash
 
 auth_bp = Blueprint('auth', __name__)
