@@ -4,6 +4,7 @@ from flask_login import current_user, login_required
 from .admin.helpers import admin_permission
 from .db import db
 from .db.models import Product, Revenue, User
+from .db.helpers import get_balance
 from .forms import MainForm
 from .helpers import format_currency
 
@@ -29,8 +30,7 @@ def index():
         user_id = impersonate_user_id
     else:
         user_id = current_user.id
-    stmt = db.select(db.func.coalesce(db.func.sum(Revenue.amount), 0)).where(Revenue.user == user_id)
-    balance = db.session.execute(stmt).scalars().first()
+    balance = get_balance(user_id)
 
     view_all = request.args.get('view_all', False, type=bool)
     form = MainForm()
