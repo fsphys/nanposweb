@@ -31,8 +31,11 @@ TERMINAL_LOGOUT_TIMEOUT = 30  # logout timeout for Terminal mode in seconds, set
 create db-tables:
 
 ```python
+from nanposweb import create_app
 from nanposweb.db import db
 
+app = create_app()
+app.app_context().push()
 db.create_all()
 ```
 
@@ -40,9 +43,10 @@ create admin user:
 
 ```python
 from nanposweb.db import db
-from nanposweb.models import User
+from nanposweb.db.models import User
+from nanposweb.helpers import calc_hash
 
-admin = User(name='admin', isop=True, pin='1234')
+admin = User(name='admin', isop=True, pin=calc_hash('1234'))
 
 db.session.add(admin)
 db.session.commit()
