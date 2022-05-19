@@ -83,4 +83,7 @@ def index_post():
     if session.get('terminal', False):
         return redirect(url_for('auth.logout'))
     else:
-        return redirect(url_for('main.index'))
+        if impersonate_user_id is not None:
+            return redirect(url_for('admin.users.index'))
+        else:
+            return redirect(url_for('main.index'))
