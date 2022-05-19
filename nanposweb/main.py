@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, current_app
 from flask_login import current_user, login_required
 
 from .admin.helpers import admin_permission
@@ -13,13 +13,16 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.context_processor
 def impersonate():
-    impersonate_user_id = session.get('impersonate', None)
-    if impersonate_user_id is not None:
-        impersonate_user = User.query.get(impersonate_user_id)
+    if current_user.is_authenticated:
+        impersonate_user_id = session.get('impersonate', None)
+        if impersonate_user_id is not None:
+            impersonate_user = User.query.get(impersonate_user_id)
+        else:
+            impersonate_user = None
+        user_name = impersonate_user.name if impersonate_user_id else current_user.name
+        return dict(impersonate_user=impersonate_user, user_name=user_name)
     else:
-        impersonate_user = None
-    user_name = impersonate_user.name if impersonate_user_id else current_user.name
-    return dict(impersonate_user=impersonate_user, user_name=user_name)
+        return dict()
 
 
 @main_bp.route('/')
@@ -87,3 +90,8 @@ def index_post():
             return redirect(url_for('admin.users.index'))
         else:
             return redirect(url_for('main.index'))
+
+
+@main_bp.route('/bankaccount', methods=['GET'])
+def bank_account():
+    return render_template('bank_account.html', bank_data=current_app.config.get('BANK_DATA', None))

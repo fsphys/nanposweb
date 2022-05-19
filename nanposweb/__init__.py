@@ -92,6 +92,15 @@ def create_app(test_config=None):
             version = 'devel'
         return dict(version=version)
 
+    @app.context_processor
+    def get_utils():
+        utils = []
+        if app.config.get('BANK_DATA', False):
+            utils.append(('main.bank_account', 'Bank Account'))
+        if app.config.get('utils', False):
+            utils.extend(app.config['utils'])
+        return dict(utils=utils)
+
     # blueprint for auth routes in our app
     app.register_blueprint(auth_bp)
 

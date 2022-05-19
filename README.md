@@ -51,3 +51,15 @@ admin = User(name='admin', isop=True, pin=calc_hash('1234'))
 db.session.add(admin)
 db.session.commit()
 ```
+
+### Bank Data
+If you want to display bank account informations, you can define the variable `BANK_DATA` inside the instance config.
+Keys and Values will be used inside the table. If `BANK_DATA` is undefined or `None` the page will not be linked in the navigation.
+```python
+BANK_DATA = {
+    'Owner': 'Max Mustermann',
+    'IBAN': '123455',
+    'BIC': 'ABCDE',
+    'Bank': 'Musterbank'
+}
+```

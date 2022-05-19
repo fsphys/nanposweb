@@ -75,6 +75,7 @@
                             </ul>
                         </div>
                     {% endif %}
+                    {% if utils %}
                         <div class="btn-group me-2" role="group">
                             <button id="util_dropdown" type="button"
                                     class="btn btn-outline-primary dropdown-toggle"
@@ -82,9 +83,12 @@
                                 Utils
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="account_dropdown">
-                                <li><a class="dropdown-item" href="#">Bank Account</a></li>
+                                {% for util_func, util_name in utils %}
+                                <li><a class="dropdown-item" href="{{ url_for(util_func) }}">{{ util_name }}</a></li>
+                                {% endfor %}
                             </ul>
                         </div>
+                    {% endif %}
                     {% if current_user.is_authenticated %}
                         <a href="{{ url_for('auth.logout') }}" role="button" class="btn btn-primary">Logout</a>
                     {% else %}

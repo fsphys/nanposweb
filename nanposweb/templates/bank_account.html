@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block pagetitle %}Bank Account{% endblock %}
+
+{% block content %}
+    {% if bank_data is not none %}
+        <div class="row justify-content-center py-3">
+            <div class="col-12 col-xl-6">
+                <table class="table">
+                    {% for key, val in bank_data.items() %}
+                        <tr>
+                            <th scope="row">{{ key }}</th>
+                            <td>{{ val }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% if current_user.is_authenticated %}
+                        <tr>
+                            <th scope="row">Reason for payment</th>
+                            <td>{{ current_user.name }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <th scope="row">Reason for payment</th>
+                            <td>YOUR NAME</td>
+                        </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-center py-3">
+            <div class="col-12 col-xl-6">
+                <p>To top up your Account transfer your wanted amount to the Account provided above.</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
