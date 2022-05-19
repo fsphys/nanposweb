@@ -12,7 +12,6 @@ from .db import db
 from .db.models import User
 from .helpers import format_currency
 from .main import main_bp
-from .utils import utils_bp
 
 
 def create_app(test_config=None):
@@ -104,9 +103,6 @@ def create_app(test_config=None):
 
     # blueprint for admin parts of app
     app.register_blueprint(admin_bp)
-
-    # blueprint for utils part of app
-    app.register_blueprint(utils_bp)
 
     return app
 
