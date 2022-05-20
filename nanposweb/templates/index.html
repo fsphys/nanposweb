@@ -3,29 +3,45 @@
 {% set drink_icons = ['mug-hot', 'whiskey-glass'] %}
 {% set alc_icons = ['beer-mug-empty', 'martini-glass', 'wine-bottle'] %}
 
-{% block pagetitle %}
-    {% if impersonate_user is not none %}
-        <span class="text-danger me-3">Impersonating</span>
-        <a role="button" class="btn btn-danger" href="{{ url_for('admin.users.pop_impersonate') }}">Disable</a>
-    {% endif %}
-{% endblock %}
+{% block utilbar %}
+    <div class="navbar navbar-light bg-light">
+        <div class="container row-cols-auto">
+            {% if impersonate_user is not none %}
+            <div class="d-flex align-items-center me-auto">
+                <i class="fa-solid fa-user-secret text-danger me-1"></i>
+                <span class="text-danger me-3">Impersonating {{ impersonate_user.name }}</span>
+                <a role="button" class="btn btn-danger"
+                   href="{{ url_for('admin.users.pop_impersonate') }}">Disable</a>
+            </div>
+            {% endif %}
 
-{% block infobar %}
-    <li class="nav-item">
-        <span class="nav-link text-dark">User: {{ user_name }}</span>
-    </li>
-    <li class="nav-item">
-        <span class="nav-link text-dark">Balance: {{ macro.render_currency(balance) }}</span>
-    </li>
-{% endblock %}
+            {% if last_revenue %}
+            <div class="d-flex align-items-center">
+                <span class="me-2">Last Buy: {{ last_revenue_product_name }} for {{ macro.render_currency(last_revenue.amount) }}</span>
+                <a role="button" class="btn btn-danger" href="{{ url_for('main.quick_cancel') }}">Cancel</a>
+            </div>
+            {% endif %}
 
-{% block additional_buttons %}
-    {% if view_all == True %}
-        <a role="button" class="btn btn-outline-info me-2 active" href="{{ url_for('main.index') }}">View all</a>
-    {% else %}
-        <a role="button" class="btn btn-outline-info me-2" href="{{ url_for('main.index', view_all=True) }}">View
-            all</a>
-    {% endif %}
+            <div class="row-cols-auto d-flex ms-auto">
+            <div>
+                <span class="nav-link text-dark">User: {{ user_name }}</span>
+            </div>
+            <div>
+                <span class="nav-link text-dark">Balance: {{ macro.render_currency(balance) }}</span>
+            </div>
+            </div>
+
+            <div class="ms-3 justify-content-end">
+                {% if view_all == True %}
+                    <a role="button" class="btn btn-outline-info me-2 active" href="{{ url_for('main.index') }}">View
+                        all</a>
+                {% else %}
+                    <a role="button" class="btn btn-outline-info"
+                       href="{{ url_for('main.index', view_all=True) }}">View all</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}

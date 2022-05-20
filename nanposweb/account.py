@@ -3,8 +3,7 @@ from flask_login import current_user, login_required
 from wtforms.validators import InputRequired
 
 from .db import db
-from .db.models import Revenue, Product
-from .db.helpers import get_balance
+from .db.helpers import get_balance, revenue_query
 from .forms import PinForm, CardForm
 from .helpers import check_hash, calc_hash
 
@@ -15,8 +14,7 @@ account_bp = Blueprint('account', __name__, url_prefix='/account')
 @login_required
 def index():
     balance = get_balance(current_user.id)
-    revenues_query = db.select(Revenue, db.func.coalesce(Product.name, '')).outerjoin(
-        Product, Revenue.product == Product.id).where(Revenue.user == current_user.id).order_by(db.desc(Revenue.id))
+    revenues_query = revenue_query(current_user.id)
     revenues = db.session.execute(revenues_query).all()
     return render_template('account/index.html', balance=balance, revenues=revenues)
 

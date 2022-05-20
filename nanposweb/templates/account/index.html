@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
 {% block pagetitle %}Revenues{% endblock %}
-{% block infobar %}
-    <li class="nav-item">
-        <span class="nav-link text-dark">User: {{ current_user.name }}</span>
-    </li>
-    <li class="nav-item">
-        <span class="nav-link text-dark">Balance: {{ macro.render_currency(balance) }}</span>
-    </li>
+
+{% block utilbar %}
+    <div class="navbar navbar-light bg-light">
+        <div class="container row-cols-auto">
+            <div class="row-cols-auto d-flex ms-auto">
+            <div>
+                <span class="nav-link text-dark">User: {{ current_user.name }}</span>
+            </div>
+            <div>
+                <span class="nav-link text-dark">Balance: {{ macro.render_currency(balance) }}</span>
+            </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}

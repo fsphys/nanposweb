@@ -3,10 +3,10 @@ from flask_login import current_user, login_required
 
 from .admin.helpers import admin_permission
 from .db import db
+from .db.helpers import get_balance, revenue_query
 from .db.models import Product, Revenue, User
-from .db.helpers import get_balance
 from .forms import MainForm
-from .helpers import format_currency
+from .helpers import format_currency, get_user_id, revenue_is_canceable
 
 main_bp = Blueprint('main', __name__)
 
@@ -28,17 +28,20 @@ def impersonate():
 @main_bp.route('/')
 @login_required
 def index():
-    impersonate_user_id = session.get('impersonate', None)
-    if impersonate_user_id is not None:
-        user_id = impersonate_user_id
-    else:
-        user_id = current_user.id
+    user_id = get_user_id()
     balance = get_balance(user_id)
+
+    last_buy_query = revenue_query(user_id)
+    last_revenue, last_revenue_product_name = db.session.execute(last_buy_query).first()
+
+    if not revenue_is_canceable(last_revenue):
+        last_revenue = False
 
     view_all = request.args.get('view_all', False, type=bool)
     form = MainForm()
     products = Product.query.order_by(Product.name).all()
-    return render_template('index.html', products=products, balance=balance, form=form, view_all=view_all)
+    return render_template('index.html', products=products, balance=balance, form=form, view_all=view_all,
+                           last_revenue=last_revenue, last_revenue_product_name=last_revenue_product_name)
 
 
 @main_bp.route('/', methods=['POST'])
@@ -92,6 +95,25 @@ def index_post():
             return redirect(url_for('main.index'))
 
 
-@main_bp.route('/bankaccount', methods=['GET'])
+@main_bp.route('/quick-cancel', methods=['GET'])
+def quick_cancel():
+    user_id = get_user_id()
+    last_buy_query = revenue_query(user_id)
+    last_revenue, last_revenue_product_name = db.session.execute(last_buy_query).first()
+
+    if revenue_is_canceable(last_revenue):
+        db.session.delete(last_revenue)
+        db.session.commit()
+        flash(f'Canceled revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}',
+              category='success')
+    else:
+        flash(
+            f'Could not cancel revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}</br> because its too old: {round(last_revenue.age.total_seconds())}s > {current_app.config.get("QUICK_CANCEL_SEC")}s',
+            category='danger')
+
+    return redirect(url_for('main.index'))
+
+
+@main_bp.route('/bank-account', methods=['GET'])
 def bank_account():
     return render_template('bank_account.html', bank_data=current_app.config.get('BANK_DATA', None))

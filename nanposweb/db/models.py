@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask_login import UserMixin
 
 from . import db
@@ -30,3 +31,9 @@ class Revenue(db.Model):
     product = db.Column('product', db.Integer, db.ForeignKey('products.id'))
     amount = db.Column('amount', db.Integer, nullable=False)
     date = db.Column('date', db.TIMESTAMP(timezone=True), server_default=db.func.now())
+
+    @property
+    def age(self):
+        date_naive = self.date.replace(tzinfo=None)
+        age = datetime.now() - date_naive
+        return age

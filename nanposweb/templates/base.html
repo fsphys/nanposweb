@@ -25,32 +25,25 @@
     <title>NANPOS Web</title>
 </head>
 <body class="d-flex h-100 flex-column">
-<header>
+<header class="sticky-top">
     {% block header %}
-        <nav class="navbar navbar-light bg-light fixed-top">
+        <nav class="navbar navbar-dark bg-primary">
             <div class="container">
                 <a href="{{ url_for('main.index') }}" class="navbar-brand">
                     <i class="fa-solid fa-cash-register me-1 d-inline-block"></i>
                     NANPOS Web{% if session.get('terminal', False) %} Terminal{% endif %}
                 </a>
 
-                <ul class="nav col-auto d-flex text-dark text-decoration-none align-items-center fs-5">
+                <ul class="nav col-auto me-auto d-flex text-white text-decoration-none fs-5">
                     {% block pagetitle %}{% endblock %}
                 </ul>
 
-                <ul class="nav col-auto ms-auto justify-content-end">
-                    {% block infobar %}
-                    {% endblock %}
-                </ul>
-
                 <div class="col-auto ms-3 text-end">
-                    {% block additional_buttons %}
-                    {% endblock %}
                     {% if current_user.is_authenticated %}
                         {% if current_user.isop %}
                             <div class="btn-group me-2" role="group">
                                 <button id="admin_dropdown" type="button"
-                                        class="btn btn-outline-primary dropdown-toggle"
+                                        class="btn btn-light dropdown-toggle"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     Admin
                                 </button>
@@ -65,7 +58,7 @@
                         {% endif %}
                         <div class="btn-group me-2" role="group">
                             <button id="account_dropdown" type="button"
-                                    class="btn btn-outline-primary dropdown-toggle"
+                                    class="btn btn-light dropdown-toggle"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                 Account
                             </button>
@@ -79,25 +72,28 @@
                     {% if utils %}
                         <div class="btn-group me-2" role="group">
                             <button id="util_dropdown" type="button"
-                                    class="btn btn-outline-primary dropdown-toggle"
+                                    class="btn btn-light dropdown-toggle"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                 Utils
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="account_dropdown">
                                 {% for util_func, util_name in utils %}
-                                <li><a class="dropdown-item" href="{{ url_for(util_func) }}">{{ util_name }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for(util_func) }}">{{ util_name }}</a>
+                                    </li>
                                 {% endfor %}
                             </ul>
                         </div>
                     {% endif %}
                     {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('auth.logout') }}" role="button" class="btn btn-primary">Logout</a>
+                        <a href="{{ url_for('auth.logout') }}" role="button" class="btn btn-danger">Logout</a>
                     {% else %}
-                        <a href="{{ url_for('auth.login') }}" role="button" class="btn btn-primary">Login</a>
+                        <a href="{{ url_for('auth.login') }}" role="button" class="btn btn-success">Login</a>
                     {% endif %}
                 </div>
             </div>
         </nav>
+    {% endblock %}
+    {% block utilbar %}
     {% endblock %}
 </header>
 
@@ -118,7 +114,7 @@
                 {% if name is not none and name != '' %}
                     <strong class="me-2">{{ name | capitalize }}!</strong>
                 {% endif %}
-                {{ message }}
+                {{ message | safe }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         {% endfor %}
