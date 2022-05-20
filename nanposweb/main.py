@@ -102,6 +102,7 @@ def index_post():
 
 
 @main_bp.route('/quick-cancel', methods=['GET'])
+@login_required
 def quick_cancel():
     user_id = get_user_id()
     last_buy_query = revenue_query(user_id)
