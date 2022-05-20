@@ -15,9 +15,9 @@ from .main import main_bp
 
 
 def create_app(test_config=None):
-    # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
+    # create and configure the nanposweb_app
+    nanposweb_app = Flask(__name__, instance_relative_config=True)
+    nanposweb_app.config.from_mapping(
         SECRET_KEY='dev',
         SESSION_COOKIE_SECURE=True,
         REMEMBER_COOKIE_SECURE=True,
@@ -28,32 +28,32 @@ def create_app(test_config=None):
         BANK_DATA=None,
         DISPLAY_FAVORITES=3,
     )
-    if app.env != 'production':
-        app.config.from_mapping(
+    if nanposweb_app.env != 'production':
+        nanposweb_app.config.from_mapping(
             SESSION_COOKIE_SECURE=False,
             REMEMBER_COOKIE_SECURE=False,
         )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
+        nanposweb_app.config.from_pyfile('config.py', silent=True)
     else:
         # load the test config if passed in
-        app.config.from_mapping(test_config)
+        nanposweb_app.config.from_mapping(test_config)
 
     # ensure the instance folder exists
     try:
-        os.makedirs(app.instance_path)
+        os.makedirs(nanposweb_app.instance_path)
     except OSError:
         pass
 
-    db.init_app(app)
+    db.init_app(nanposweb_app)
 
-    Principal(app)
+    Principal(nanposweb_app)
 
     login_manager = LoginManager()
     login_manager.login_message_category = 'info'
-    login_manager.init_app(app)
+    login_manager.init_app(nanposweb_app)
 
     @login_manager.unauthorized_handler
     def unauthorized():
@@ -72,7 +72,7 @@ def create_app(test_config=None):
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-    @identity_loaded.connect_via(app)
+    @identity_loaded.connect_via(nanposweb_app)
     def on_identity_loaded(sender, identity):
         # Set the identity user object
         identity.user = current_user
@@ -85,38 +85,38 @@ def create_app(test_config=None):
         if hasattr(current_user, 'isop'):
             identity.provides.add(RoleNeed('admin'))
 
-    app.jinja_env.filters['format_currency'] = format_currency
+    nanposweb_app.jinja_env.filters['format_currency'] = format_currency
 
-    @app.context_processor
+    @nanposweb_app.context_processor
     def get_version():
-        if app.env == 'production':
+        if nanposweb_app.env == 'production':
             version = metadata.version('nanposweb')
         else:
             version = 'devel'
         return dict(version=version)
 
-    @app.context_processor
+    @nanposweb_app.context_processor
     def get_utils():
         utils = []
-        if app.config.get('BANK_DATA', False):
+        if nanposweb_app.config.get('BANK_DATA', False):
             utils.append(('main.bank_account', 'Bank Account'))
-        if app.config.get('utils', False):
-            utils.extend(app.config['utils'])
+        if nanposweb_app.config.get('utils', False):
+            utils.extend(nanposweb_app.config['utils'])
         return dict(utils=utils)
 
-    # blueprint for auth routes in our app
-    app.register_blueprint(auth_bp)
+    # blueprint for auth routes in our nanposweb_app
+    nanposweb_app.register_blueprint(auth_bp)
 
-    # blueprint for main parts of app
-    app.register_blueprint(main_bp)
+    # blueprint for main parts of nanposweb_app
+    nanposweb_app.register_blueprint(main_bp)
 
     # blueprint for account management
-    app.register_blueprint(account_bp)
+    nanposweb_app.register_blueprint(account_bp)
 
-    # blueprint for admin parts of app
-    app.register_blueprint(admin_bp)
+    # blueprint for admin parts of nanposweb_app
+    nanposweb_app.register_blueprint(admin_bp)
 
-    return app
+    return nanposweb_app
 
 
 app = create_app()
