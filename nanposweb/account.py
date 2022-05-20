@@ -39,19 +39,19 @@ def pin():
     if form.validate_on_submit():
         if current_user.pin is not None:
             if not check_hash(current_user.pin, form.old_pin.data):
-                flash('Old PIN is not correct', 'danger')
+                flash('Old PIN is not correct', category='danger')
                 return render_template('account/change_pin.html', form=form)
 
         if form.new_pin.data != form.confirm_pin.data:
-            flash('New PIN and Confirmation do not match', 'danger')
+            flash('New PIN and Confirmation do not match', category='danger')
             return render_template('account/change_pin.html', form=form)
 
         if form.unset_pin.data:
             current_user.pin = None
-            flash('Unset PIN', 'success')
+            flash('Unset PIN', category='success')
         else:
             current_user.pin = calc_hash(form.new_pin.data)
-            flash('Changed PIN', 'success')
+            flash('Changed PIN', category='success')
 
         db.session.commit()
         return redirect(url_for('main.index'))
@@ -67,10 +67,10 @@ def card():
     if form.validate_on_submit():
         if form.unset_card.data:
             current_user.card = None
-            flash('Unset Card', 'success')
+            flash('Unset Card', category='success')
         else:
             current_user.card = calc_hash(form.card_number.data)
-            flash('Changed Card', 'success')
+            flash('Changed Card', category='success')
 
         db.session.commit()
         return redirect(url_for('main.index'))

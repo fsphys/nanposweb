@@ -55,24 +55,24 @@ def index_post():
 
     form = MainForm()
     if not form.validate_on_submit():
-        flash('PANIC', 'danger')
+        flash('Submitted form was not valid!', category='danger')
         return redirect(url_for('main.index'))
 
     if form.ean.data:
         ean = form.ean.data
         product = Product.query.filter_by(ean=ean).first()
         if product is None:
-            flash(f'No product with ean {ean} known.', 'danger')
+            flash(f'No product with ean {ean} known.', category='danger')
             return redirect(url_for('main.index'))
     else:
         product_id = request.form.get('product_id')
         if product_id is None:
-            flash('No product id given', 'danger')
+            flash('No product id given', category='danger')
             return redirect(url_for('main.index'))
 
         product = Product.query.filter_by(id=product_id).first()
         if product is None:
-            flash(f'No product with id {product_id} known.', 'danger')
+            flash(f'No product with id {product_id} known.', category='danger')
             return redirect(url_for('main.index'))
 
     rev = Revenue(user=user_id, product=product.id, amount=-product.price)
@@ -82,7 +82,7 @@ def index_post():
     # remove impersonate session state
     session.pop('impersonate', None)
 
-    flash(f'Bought {product.name} for {format_currency(product.price)}{user_message}', 'success')
+    flash(f'Bought {product.name} for {format_currency(product.price)}{user_message}', category='success')
     if session.get('terminal', False):
         return redirect(url_for('auth.logout'))
     else:

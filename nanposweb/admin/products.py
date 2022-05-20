@@ -23,7 +23,7 @@ def index():
 def post():
     form = ProductForm()
     if not form.validate_on_submit():
-        flash('PANIC', 'danger')
+        flash('Submitted form was not valid!', category='danger')
         return render_template('products/form.html', form=form, edit=True)
 
     item = Product.query.filter_by(id=form.id.data).one_or_none()
@@ -38,7 +38,7 @@ def post():
         )
         db.session.add(new)
         db.session.commit()
-        flash(f'Created products "{form.name.data}"', 'success')
+        flash(f'Created products "{form.name.data}"', category='success')
     else:
         item.name = form.name.data
         item.ean = form.ean.data
@@ -47,7 +47,7 @@ def post():
         item.has_alc = form.has_alc.data
         item.is_food = form.is_food.data
         db.session.commit()
-        flash(f'Updated products "{form.name.data}"', 'success')
+        flash(f'Updated products "{form.name.data}"', category='success')
 
     return redirect(url_for('admin.products.index'))
 
@@ -84,5 +84,5 @@ def delete(product_id):
     product = Product.query.get(int(product_id))
     db.session.delete(product)
     db.session.commit()
-    flash(f'Deleted product "{product.name}"', 'success')
+    flash(f'Deleted product "{product.name}"', category='success')
     return redirect(url_for('admin.products.index'))

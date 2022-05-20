@@ -23,13 +23,13 @@ def login():
 
         if user and check_hash(user.pin, form.pin.data):
             login_user(user, remember=form.remember.data)
-            flash('Logged in', 'success')
+            flash('Logged in', category='success')
 
             identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
 
             return redirect(request.args.get('next') or url_for('main.index'))
         else:
-            flash('Please check your login details and try again.', 'danger')
+            flash('Please check your login details and try again.', category='danger')
 
     return render_template('login.html', form=form)
 

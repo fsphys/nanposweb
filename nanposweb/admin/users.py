@@ -30,7 +30,7 @@ def index():
 def post():
     form = UserForm()
     if not form.validate_on_submit():
-        flash('PANIC', 'danger')
+        flash('Submitted form was not valid!', category='danger')
         return render_template('products/form.html', form=form, edit=True)
 
     create = False
@@ -55,10 +55,10 @@ def post():
     if create:
         db.session.add(user)
         db.session.commit()
-        flash(f'Created user {form.name.data}', 'success')
+        flash(f'Created user {form.name.data}', category='success')
     else:
         db.session.commit()
-        flash(f'Updated user "{form.name.data}"', 'success')
+        flash(f'Updated user "{form.name.data}"', category='success')
 
     return redirect(url_for('admin.users.index'))
 
@@ -92,18 +92,20 @@ def balance(user_id):
 
         if form.recharge.data:
             factor = 1
-            flash(f'Added {euros:.2f} € for {user.name}', 'success')
+            flash(f'Added {euros:.2f} € for {user.name}', category='success')
         elif form.charge.data:
             factor = -1
-            flash(f'Charged {euros:.2f} € from {user.name}', 'success')
+            flash(f'Charged {euros:.2f} € from {user.name}', category='success')
         else:
-            flash('PANIC', 'danger')
+            flash('Submitted form was not valid!', category='danger')
             return render_template('users/balance.html', form=form, user=user)
 
         rev = Revenue(user=user.id, product=None, amount=cents * factor)
         db.session.add(rev)
         db.session.commit()
         return redirect(url_for('admin.users.index'))
+    else:
+        flash('Submitted form was not valid!', category='danger')
 
     return render_template('users/balance.html', form=form, user=user)
 
@@ -137,5 +139,5 @@ def delete(user_id):
     user = User.query.get(int(user_id))
     db.session.delete(user)
     db.session.commit()
-    flash(f'Deleted user "{user.name}"', 'success')
+    flash(f'Deleted user "{user.name}"', category='success')
     return redirect(url_for('admin.users.index'))
