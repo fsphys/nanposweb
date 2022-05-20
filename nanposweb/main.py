@@ -37,11 +37,18 @@ def index():
     if not revenue_is_canceable(last_revenue):
         last_revenue = False
 
+    # select p.name, count(product) as CTR from revenues join products p on p.id = revenues.product where "user" = 17 and product is not NULL group by p.name order by CTR DESC
+    most_buyed_query = db.select(Product, db.func.count(Revenue.product).label('CTR')).join(Product).where(
+        Revenue.product is not None).where(Revenue.user == user_id).group_by(Product.id).order_by(db.desc('CTR'))
+    most_buyed = db.session.execute(most_buyed_query).all()
+    favorites = [f[0] for f in most_buyed[:current_app.config.get('DISPLAY_FAVORITES')]]
+
     view_all = request.args.get('view_all', False, type=bool)
     form = MainForm()
     products = Product.query.order_by(Product.name).all()
     return render_template('index.html', products=products, balance=balance, form=form, view_all=view_all,
-                           last_revenue=last_revenue, last_revenue_product_name=last_revenue_product_name)
+                           favorites=favorites, last_revenue=last_revenue,
+                           last_revenue_product_name=last_revenue_product_name)
 
 
 @main_bp.route('/', methods=['POST'])
@@ -107,13 +114,12 @@ def quick_cancel():
         flash(f'Canceled revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}',
               category='success')
     else:
-        flash(
-            f'Could not cancel revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}</br> because its too old: {round(last_revenue.age.total_seconds())}s > {current_app.config.get("QUICK_CANCEL_SEC")}s',
-            category='danger')
+        flash(f'Could not cancel revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}</br> because its too old: {round(last_revenue.age.total_seconds())}s > {current_app.config.get("QUICK_CANCEL_SEC")}s',
+              category='danger')
 
     return redirect(url_for('main.index'))
 
 
 @main_bp.route('/bank-account', methods=['GET'])
 def bank_account():
-    return render_template('bank_account.html', bank_data=current_app.config.get('BANK_DATA', None))
+    return render_template('bank_account.html', bank_data=current_app.config.get('BANK_DATA'))

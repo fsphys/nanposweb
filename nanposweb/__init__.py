@@ -25,6 +25,8 @@ def create_app(test_config=None):
         SQLALCHEMY_DATABASE_URI='postgresql://nanpos:nanpos@localhost:5432/nanpos',
         TERMINAL_LOGOUT_TIMEOUT=30,  # logout timeout for Terminal mode in seconds, set to none to disable
         QUICK_CANCEL_SEC=60,  # Second-Limit for canceling a revenue
+        BANK_DATA=None,
+        DISPLAY_FAVORITES=3,
     )
     if app.env != 'production':
         app.config.from_mapping(

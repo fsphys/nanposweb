@@ -61,9 +61,15 @@
             {% for product in products %}
                 {% if product.visible or view_all %}
                     <div class="d-grid">
+                    {% if product in favorites %}
+                        <button type="submit" class="btn btn-primary py-5 ps-5" name="product_id"
+                    {% else %}
                         <button type="submit" class="btn btn-outline-primary py-5 ps-5" name="product_id"
+                    {% endif %}
                                 value="{{ product.id }}">
-                            {% if product.is_food %}
+                            {% if product in favorites %}
+                                {% set icon = "star" %}
+                            {% elif product.is_food %}
                                 {% set icon = (food_icons | random) %}
                             {% else %}
                                 {% if product.has_alc %}
