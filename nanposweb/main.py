@@ -37,7 +37,6 @@ def index():
     if not revenue_is_canceable(last_revenue):
         last_revenue = False
 
-    # select p.name, count(product) as CTR from revenues join products p on p.id = revenues.product where "user" = 17 and product is not NULL group by p.name order by CTR DESC
     most_buyed_query = db.select(Product, db.func.count(Revenue.product).label('CTR')).join(Product).where(
         Revenue.product is not None).where(Revenue.user == user_id).group_by(Product.id).order_by(db.desc('CTR'))
     most_buyed = db.session.execute(most_buyed_query).all()
@@ -114,7 +113,9 @@ def quick_cancel():
         flash(f'Canceled revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}',
               category='success')
     else:
-        flash(f'Could not cancel revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}</br> because its too old: {round(last_revenue.age.total_seconds())}s > {current_app.config.get("QUICK_CANCEL_SEC")}s',
+        flash(f'Could not cancel revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}'
+              f'</br> because its too old:'
+              f' {round(last_revenue.age.total_seconds())}s > {current_app.config.get("QUICK_CANCEL_SEC")}s',
               category='danger')
 
     return redirect(url_for('main.index'))
