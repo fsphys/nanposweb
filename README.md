@@ -1,5 +1,7 @@
 # NANPOS Web
 
+Webfrontend for [nanpos](https://github.com/antonxy/nanpos)
+
 ## Config
 
 create `instance/config.py`. All [Flask](https://flask.palletsprojects.com/en/2.0.x/)
@@ -45,6 +47,10 @@ create admin user:
 from nanposweb.db import db
 from nanposweb.db.models import User
 from nanposweb.helpers import calc_hash
+from nanposweb import create_app
+
+app = create_app()
+app.app_context().push()
 
 admin = User(name='admin', isop=True, pin=calc_hash('1234'))
 

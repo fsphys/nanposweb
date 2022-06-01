@@ -26,7 +26,8 @@ def create_app(test_config=None):
         TERMINAL_LOGOUT_TIMEOUT=30,  # logout timeout for Terminal mode in seconds, set to none to disable
         QUICK_CANCEL_SEC=60,  # Second-Limit for canceling a revenue
         BANK_DATA=None,
-        DISPLAY_FAVORITES=3,
+        FAVORITES_DISPLAY=3,  # Amount of favorite products which should get highlighted
+        FAVORITES_DAYS=100,  # Timespan for calculation of favorite products in Days
     )
     if nanposweb_app.env != 'production':
         nanposweb_app.config.from_mapping(

@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, current_app
 from flask_login import current_user, login_required
 
@@ -32,15 +34,16 @@ def index():
     balance = get_balance(user_id)
 
     last_buy_query = revenue_query(user_id)
-    last_revenue, last_revenue_product_name = db.session.execute(last_buy_query).first()
+    last_revenue, last_revenue_product_name = db.session.execute(last_buy_query).first() or (None, None)
 
-    if not revenue_is_canceable(last_revenue):
+    if last_revenue is not None and not revenue_is_canceable(last_revenue):
         last_revenue = False
 
+    most_buyed_timestamp = datetime.datetime.now() - datetime.timedelta(days=current_app.config['FAVORITES_DAYS'])
     most_buyed_query = db.select(Product, db.func.count(Revenue.product).label('CTR')).join(Product).where(
-        Revenue.product is not None).where(Revenue.user == user_id).group_by(Product.id).order_by(db.desc('CTR'))
+        Revenue.product is not None).where(Revenue.user == user_id).where(Revenue.date >= most_buyed_timestamp).group_by(Product.id).order_by(db.desc('CTR'))
     most_buyed = db.session.execute(most_buyed_query).all()
-    favorites = [f[0] for f in most_buyed[:current_app.config.get('DISPLAY_FAVORITES')]]
+    favorites = [f[0] for f in most_buyed[:current_app.config.get('FAVORITES_DISPLAY')]]
 
     view_all = request.args.get('view_all', False, type=bool)
     form = MainForm()
