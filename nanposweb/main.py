@@ -41,7 +41,8 @@ def index():
 
     most_buyed_timestamp = datetime.datetime.now() - datetime.timedelta(days=current_app.config['FAVORITES_DAYS'])
     most_buyed_query = db.select(Product, db.func.count(Revenue.product).label('CTR')).join(Product).where(
-        Revenue.product is not None).where(Revenue.user == user_id).where(Revenue.date >= most_buyed_timestamp).group_by(Product.id).order_by(db.desc('CTR'))
+        Revenue.product is not None).where(Revenue.user == user_id).where(
+        Revenue.date >= most_buyed_timestamp).group_by(Product.id).order_by(db.desc('CTR'))
     most_buyed = db.session.execute(most_buyed_query).all()
     favorites = [f[0] for f in most_buyed[:current_app.config.get('FAVORITES_DISPLAY')]]
 
