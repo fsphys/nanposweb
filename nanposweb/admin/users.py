@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, session, flash
+from flask import Blueprint, render_template, redirect, url_for, session, flash, request
 from flask_login import login_required
 
 from .forms import BalanceForm, UserForm
@@ -86,26 +86,27 @@ def balance(user_id):
     user = User.query.get(int(user_id))
     form = BalanceForm()
 
-    if form.validate_on_submit():
-        euros = form.amount.data
-        cents = int(euros * 100)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            euros = form.amount.data
+            cents = int(euros * 100)
 
-        if form.recharge.data:
-            factor = 1
-            flash(f'Added {euros:.2f} € for {user.name}', category='success')
-        elif form.charge.data:
-            factor = -1
-            flash(f'Charged {euros:.2f} € from {user.name}', category='success')
+            if form.recharge.data:
+                factor = 1
+                flash(f'Added {euros:.2f} € for {user.name}', category='success')
+            elif form.charge.data:
+                factor = -1
+                flash(f'Charged {euros:.2f} € from {user.name}', category='success')
+            else:
+                flash('Submitted form was not valid!', category='danger')
+                return render_template('users/balance.html', form=form, user=user)
+
+            rev = Revenue(user=user.id, product=None, amount=cents * factor)
+            db.session.add(rev)
+            db.session.commit()
+            return redirect(url_for('admin.users.index'))
         else:
             flash('Submitted form was not valid!', category='danger')
-            return render_template('users/balance.html', form=form, user=user)
-
-        rev = Revenue(user=user.id, product=None, amount=cents * factor)
-        db.session.add(rev)
-        db.session.commit()
-        return redirect(url_for('admin.users.index'))
-    else:
-        flash('Submitted form was not valid!', category='danger')
 
     return render_template('users/balance.html', form=form, user=user)
 

@@ -18,18 +18,21 @@ def login():
     session['terminal'] = request.args.get('terminal', False, type=bool)
     form = LoginForm()
 
-    if form.validate_on_submit():
-        user = User.query.filter_by(name=form.username.data).one_or_none()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User.query.filter_by(name=form.username.data).one_or_none()
 
-        if user and check_hash(user.pin, form.pin.data):
-            login_user(user, remember=form.remember.data)
-            flash('Logged in', category='success')
+            if user and check_hash(user.pin, form.pin.data):
+                login_user(user, remember=form.remember.data)
+                flash('Logged in', category='success')
 
-            identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
+                identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
 
-            return redirect(request.args.get('next') or url_for('main.index'))
+                return redirect(request.args.get('next') or url_for('main.index'))
+            else:
+                flash('Please check your login details and try again.', category='danger')
         else:
-            flash('Please check your login details and try again.', category='danger')
+            flash('Submitted form was not valid!', category='danger')
 
     return render_template('login.html', form=form)
 
