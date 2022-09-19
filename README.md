@@ -1,6 +1,8 @@
-# NANPOS Web
+# nanposweb - Fachschaft Physik Edition
 
-Webfrontend for [nanpos](https://github.com/antonxy/nanpos)
+This is a fork of the [Fachschaft Physik am KIT](https://fachschaft.physik.kit.edu) of the "NANPOS Web" project, created 
+by [domrim](https://gitlab.com/domrim) and licensed under the MIT-License. The original project can be found here: 
+https://gitlab.com/domrim/nanposweb
 
 ## Config
 
@@ -59,7 +61,7 @@ db.session.commit()
 ```
 
 ### Bank Data
-If you want to display bank account informations, you can define the variable `BANK_DATA` inside the instance config.
+If you want to display bank account information, you can define the variable `BANK_DATA` inside the instance config.
 Keys and Values will be used inside the table. If `BANK_DATA` is undefined or `None` the page will not be linked in the navigation.
 ```python
 BANK_DATA = {
@@ -69,3 +71,9 @@ BANK_DATA = {
     'Bank': 'Musterbank'
 }
 ```
+
+## License
+
+The original code was created by [domrim](https://gitlab.com/domrim) and licensed under the MIT-License. Additionally,
+all changes of the Fachschaft Physik are also licensed under this license. More information can be found in the
+[LICENSE](LICENSE)-file.
