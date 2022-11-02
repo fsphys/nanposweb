@@ -42,11 +42,17 @@ COPY --chown=nanpos:nanpos . .
 # Create a venv for poetry
 RUN python3 -m venv $POETRY_HOME
 
+# Update pip in venv
+RUN python3 -m pip install --upgrade pip
+
 # Install poetry
 RUN $POETRY_HOME/bin/pip install poetry==1.2.0
+
+# Add poetry to the path
+ENV PATH="$POETRY_HOME/bin:$PATH"
 
 # Install project in production mode
 RUN poetry install --no-dev
 
 # Start gunicorn serving the site
-CMD["gunicorn", "-b", "0.0.0.0:5000", "nanposweb:create_app()"]
+CMD ["poetry", "run", "gunicorn", "-b", "0.0.0.0:5000", "nanposweb:create_app()"]
