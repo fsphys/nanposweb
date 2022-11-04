@@ -4,6 +4,22 @@ This is a fork of the [Fachschaft Physik am KIT](https://fachschaft.physik.kit.e
 by [domrim](https://gitlab.com/domrim) and licensed under the MIT-License. The original project can be found here: 
 https://gitlab.com/domrim/nanposweb
 
+## Setup
+
+This a quick start guide.
+
+1. Clone the project and access the folder.
+2. Get all dependencies (Bootstrap, FontAwesome Icons). This step can be skipped, if you're planning to deploy using 
+   docker, as it's included in the Dockerfile.
+   - Bootstrap v5: Get the following files from the latest release and put them into their matching folder.
+     - `bootstrap.min.css` to `nanposweb/static/css/bootstrap.min.css`
+     - `bootstrap.bundle.min.js` to `nanposweb/static/js/bootstrap.bundle.min.js`
+   - FontAwesome Icon v6:
+     - `all.min.css` to `nanposweb/static/css/all.min.css`
+     - `all.min.js` to `nanposweb/static/js/all.min.js`
+     - All contents of the `webfonts`-folder into `nanposweb/static/webfonts`
+3. You are ready to go!
+
 ## Config
 
 create `instance/config.py`. All [Flask](https://flask.palletsprojects.com/en/2.0.x/)

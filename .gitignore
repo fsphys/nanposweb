@@ -144,3 +144,6 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
+nanposweb/static/js
+nanposweb/static/css
+nanposweb/static/webfonts
