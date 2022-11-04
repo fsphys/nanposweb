@@ -3,14 +3,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 {% endblock %}
 {% block main %}
-    <div class="text-center align-items-center" style="padding-top: 20vh">
+    <div class="text-center align-items-center" style="padding-top: 5vh">
         <div class="mb-3">
             <i class="mb-4 fas fa-cash-register fa-7x"></i>
             <h1>NANPOS Web</h1>
             {% if session.get('terminal', False) %}
                 <h2>Terminal</h2>
             {% endif %}
-            <h2>At least better than Counter Solutions...</h2>
         </div>
 
         <form class="form-signin" action="{{ url_for('auth.login', terminal=request.args.get('terminal')) }}"
