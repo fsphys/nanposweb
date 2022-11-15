@@ -76,7 +76,7 @@ RUN $POETRY_HOME/bin/pip install poetry==1.2.0
 ENV PATH="$POETRY_HOME/bin:$PATH"
 
 # Install project in production mode
-RUN poetry install --no-dev
+RUN poetry install --only main
 
 # Start gunicorn serving the site
 CMD ["poetry", "run", "gunicorn", "-b", "0.0.0.0:5000", "nanposweb:create_app()"]
