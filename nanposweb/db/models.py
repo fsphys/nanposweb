@@ -34,6 +34,17 @@ class Revenue(db.Model):
 
     @property
     def age(self):
+        """
+        Method to calculate the age of the purchase.
+
+        :return: naive datetime offset representing the age of the revenue
+        """
+
+        # As most databases (Postgres, SQLite) store time zone aware internal as UTC with the matching offset, the
+        # returned datetime object from the sqlalchemy will be an utc date with the additional timezone information. If
+        # we strip that information to get a naive date, we need to consider, that is a UTC date.
         date_naive = self.date.replace(tzinfo=None)
-        age = datetime.now() - date_naive
+        # We can't ensure, that our system is running in the UTC timezone. To get the correct current time now() can't
+        # be used, as it returns the naive, local datetime. Therefore, utcnow() is used to get a naive UTC datetime.
+        age = datetime.utcnow() - date_naive
         return age
