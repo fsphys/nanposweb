@@ -3,8 +3,9 @@ from flask_login import login_required, logout_user, login_user, current_user
 from flask_principal import identity_changed, Identity, AnonymousIdentity
 
 from .db.models import User
-from .forms import LoginForm
-from .helpers import check_hash
+from .db import db
+from .forms import LoginForm, SignUpForm
+from .helpers import check_hash, calc_hash
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -14,6 +15,8 @@ def login():
     if current_user.is_authenticated:
         flash('Already logged in.')
         return redirect(request.args.get('next') or url_for('main.index'))
+
+    allow_sign_up = current_app.config.get("ALLOW_SIGNUP", False)
 
     session['terminal'] = request.args.get('terminal', False, type=bool)
     form = LoginForm()
@@ -34,7 +37,7 @@ def login():
         else:
             flash('Submitted form was not valid!', category='danger')
 
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, allow_sign_up=allow_sign_up)
 
 
 @auth_bp.route('/logout')
@@ -56,3 +59,42 @@ def logout():
         return redirect(url_for('auth.login', terminal=True))
     else:
         return redirect(url_for('auth.login'))
+
+
+@auth_bp.route('/signup', methods=['GET', 'POST'])
+def signup():
+
+    # If there is a current user, and he is already logged in then redirect him to the main ui
+    if current_user.is_authenticated:
+        flash('Already logged in.')
+        return redirect(request.args.get('next') or url_for('main.index'))
+
+    # Redirect to the login page if sign up is disabled
+    if current_app.config.get("ALLOW_SIGNUP", False) is False:
+        return redirect(url_for('auth.login'))
+
+    # Ensure proper terminal support for the page
+    session['terminal'] = request.args.get('terminal', False, type=bool)
+
+    # Create an instance for the signup form
+    form = SignUpForm()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            # Check if there is a user with the username
+            check_user = User.query.filter_by(name=form.username.data).one_or_none()
+
+            if form.pin.data != form.repeat_pin.data:
+                flash('PIN isn\'t matching. Please reenter it.', category='danger')
+            elif check_user is not None:
+                flash('Username already taken! Please choose a different one.', category='danger')
+            else:
+                # Register the user
+                user = User(name=form.username.data, isop=False, pin=calc_hash(form.pin.data))
+                db.session.add(user)
+                db.session.commit()
+
+                flash('User successfully registered. Go to the login form to log in.', category='success')
+                return redirect(url_for('auth.login'))
+
+    return render_template('signup.html', form=form)

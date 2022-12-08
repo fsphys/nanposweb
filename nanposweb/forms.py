@@ -11,6 +11,14 @@ class LoginForm(FlaskForm):
     submit = SubmitField(label='Sign in', )
 
 
+class SignUpForm(FlaskForm):
+    username = StringField(label='Username', validators=[InputRequired()],
+                           render_kw={'placeholder': 'Username', 'autofocus': True}, )
+    pin = PasswordField(label='PIN', validators=[InputRequired()], render_kw={'placeholder': 'PIN'}, )
+    repeat_pin = PasswordField(label='Repeat PIN', validators=[InputRequired()], render_kw={'placeholder': 'PIN'}, )
+    submit = SubmitField(label='Sign up', )
+
+
 class MainForm(FlaskForm):
     ean = IntegerField(label='EAN', validators=[Optional()], render_kw={'placeholder': 'EAN', 'autofocus': True}, )
 

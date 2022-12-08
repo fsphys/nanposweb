@@ -5,14 +5,14 @@
 {% block main %}
     <div class="text-center align-items-center" style="padding-top: 5vh">
         <div class="mb-3">
-            <i class="mb-4 fas fa-cash-register fa-7x"></i>
             <h1>NANPOS Web</h1>
             {% if session.get('terminal', False) %}
                 <h2>Terminal</h2>
             {% endif %}
+            <h3>Sign up</h3>
         </div>
 
-        <form class="form-signin" action="{{ url_for('auth.login', terminal=request.args.get('terminal')) }}"
+        <form class="form-signup" action="{{ url_for('auth.signup', terminal=request.args.get('terminal')) }}"
               method="post">
             {{ form.csrf_token }}
             <div class="form-floating">
@@ -23,21 +23,16 @@
                 {{ form.pin(class='form-control') }}
                 {{ form.pin.label }}
             </div>
-            {% if session.get('terminal', False) == False %}
-                <div class="checkbox mb-3">
-                    {{ form.remember }}
-                    {{ form.remember.label }}
-                </div>
-            {% endif %}
+            <div class="form-floating">
+                {{ form.repeat_pin(class='form-control') }}
+                {{ form.repeat_pin.label }}
+            </div>
             {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
         </form>
 
-        {% if allow_sign_up is true %}
-            <div class="form-signin">
-                <p>No account yet?</p>
-                <a class="w-100 btn btn-lg btn-secondary" href="{{ url_for("auth.signup") }}" role="button">Sign up</a>
-            </div>
-        {% endif %}
+        <div class="form-signin">
+            <a class="w-100 btn btn-lg btn-secondary" href="{{ url_for("auth.login") }}" role="button">Back to login</a>
+        </div>
 
     </div>
 {% endblock %}

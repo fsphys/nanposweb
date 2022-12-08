@@ -28,3 +28,31 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+.form-signup {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-signup .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signup input[name="username"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signup input[name="pin"] {
+    margin-bottom: -1px;
+    border-radius: 0;
+}
+
+.form-signup input[name="repeat_pin"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
