@@ -8,9 +8,11 @@
             <div>
                 <span class="nav-link text-dark">User: {{ current_user.name }}</span>
             </div>
-            <div>
-                <span class="nav-link text-dark">Balance: {{ macro.render_currency(balance) }}</span>
-            </div>
+            {% if config.SHOW_BALANCE_AND_PRICE %}
+                <div>
+                    <span class="nav-link text-dark">Balance: {{ macro.render_currency(balance) }}</span>
+                </div>
+            {% endif %}
             </div>
         </div>
     </div>
@@ -22,7 +24,9 @@
         <tr>
             <th scope="col">Date</th>
             <th scope="col">Product</th>
-            <th scope="col" class="text-end">Amount</th>
+            {% if config.SHOW_BALANCE_AND_PRICE %}
+                <th scope="col" class="text-end">Amount</th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -30,7 +34,9 @@
             <tr>
                 <td>{{ revenue.date.strftime('%Y-%m-%d %H:%M') }}</td>
                 <td>{{ product_name }}</td>
-                <td class="text-end">{{ macro.render_currency(revenue.amount) }}</td>
+                {% if config.SHOW_BALANCE_AND_PRICE %}
+                    <td class="text-end">{{ macro.render_currency(revenue.amount) }}</td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>
