@@ -30,6 +30,8 @@ def create_app(test_config=None):
         FAVORITES_DAYS=100,  # Timespan for calculation of favorite products in Days
         ALLOW_SIGNUP=False,  # Disable user sign up
         ENABLE_CARD_READER=False,  # Disable the card reader by default
+        VERIFY_CARD_READER=False,  # Verify the send card reader device id
+        VERIFIED_CARD_READERS=[],  # Per default are no card readers authorized
     )
     if nanposweb_app.env != 'production':
         nanposweb_app.config.from_mapping(

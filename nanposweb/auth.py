@@ -54,8 +54,16 @@ def card_login():
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            # TODO: Check Reader ID
-            print(form.data)
+            # Check if card reader checks are enabled
+            if current_app.config.ENABLE_CARD_READER and current_app.config.VERIFY_CARD_READER:
+                # Try verifying the card reader
+                if form.reader.data not in current_app.config.VERIFIED_CARD_READERS:
+                    # Redirect back to the login page
+                    if session.get('terminal', False):
+                        return redirect(url_for('auth.login', terminal=True))
+                    else:
+                        return redirect(url_for('auth.login'))
+
             user = User.query.filter_by(card=calc_hash(form.card.data)).one_or_none()
 
             if user:

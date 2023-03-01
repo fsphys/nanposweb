@@ -92,7 +92,7 @@ async function connectToPort() {
                     let input = String.fromCharCode.apply(null, value);
                     // Check the length of the string
                     if (input.length === 39) {
-                        let items = input.split(";");
+                        let items = input.trim().split(";");
                         // Set the values
                         document.getElementById("card").setAttribute("value", items[0]);
                         document.getElementById("reader").setAttribute("value", items[1]);
