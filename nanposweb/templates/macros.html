@@ -25,3 +25,13 @@
         {{ checkbox.label }}
     </div>
 {% endmacro %}
+
+{% macro render_contingent(balance, price) %}
+    {% if (balance / price) < 1 %}
+        <span class="text-danger">
+    {% endif %}
+Remaining: {{ (balance / price) | int }}
+    {% if (balance / price) < 1 %}
+        </span>
+    {% endif %}
+{%- endmacro %}

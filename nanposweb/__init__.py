@@ -29,6 +29,7 @@ def create_app(test_config=None):
         FAVORITES_DISPLAY=3,  # Amount of favorite products which should get highlighted
         FAVORITES_DAYS=100,  # Timespan for calculation of favorite products in Days
         ALLOW_SIGNUP=False,  # Disable user sign up
+        SHOW_BALANCE_AND_PRICE=False,
     )
     if nanposweb_app.debug:
         nanposweb_app.config.from_mapping(
