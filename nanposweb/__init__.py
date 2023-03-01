@@ -7,7 +7,7 @@ from flask_principal import Principal, identity_loaded, UserNeed, RoleNeed
 
 from .account import account_bp
 from .admin import admin_bp
-from .auth import auth_bp
+from .auth import auth_bp, card_auth_bp
 from .db import db
 from .db.models import User
 from .helpers import format_currency
@@ -29,6 +29,9 @@ def create_app(test_config=None):
         FAVORITES_DISPLAY=3,  # Amount of favorite products which should get highlighted
         FAVORITES_DAYS=100,  # Timespan for calculation of favorite products in Days
         ALLOW_SIGNUP=False,  # Disable user sign up
+        ENABLE_CARD_READER=False,  # Disable the card reader by default
+        VERIFY_CARD_READER=False,  # Verify the send card reader device id
+        VERIFIED_CARD_READERS=[],  # Per default are no card readers authorized
         SHOW_BALANCE_AND_PRICE=False,
     )
     if nanposweb_app.debug:
@@ -109,6 +112,10 @@ def create_app(test_config=None):
 
     # blueprint for auth routes in our nanposweb_app
     nanposweb_app.register_blueprint(auth_bp)
+
+    # blueprint for card auth route in nanposweb
+    if nanposweb_app.config.get('ENABLE_CARD_READER', False):
+        nanposweb_app.register_blueprint(card_auth_bp)
 
     # blueprint for main parts of nanposweb_app
     nanposweb_app.register_blueprint(main_bp)

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, PasswordField, SubmitField, IntegerField
+from wtforms import StringField, BooleanField, PasswordField, SubmitField, IntegerField, HiddenField
 from wtforms.validators import InputRequired, Optional
 
 
@@ -9,6 +9,11 @@ class LoginForm(FlaskForm):
     pin = PasswordField(label='PIN', validators=[InputRequired()], render_kw={'placeholder': 'PIN'}, )
     remember = BooleanField(label='Remember me', )
     submit = SubmitField(label='Sign in', )
+
+
+class CardLoginForm(FlaskForm):
+    card = HiddenField(label="Card", validators=[InputRequired()])
+    reader = HiddenField(label="Reader", validators=[InputRequired()])
 
 
 class SignUpForm(FlaskForm):

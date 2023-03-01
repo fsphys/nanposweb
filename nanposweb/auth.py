@@ -4,10 +4,11 @@ from flask_principal import identity_changed, Identity, AnonymousIdentity
 
 from .db.models import User
 from .db import db
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, CardLoginForm
 from .helpers import check_hash, calc_hash
 
 auth_bp = Blueprint('auth', __name__)
+card_auth_bp = Blueprint('card', __name__)
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -20,6 +21,7 @@ def login():
 
     session['terminal'] = request.args.get('terminal', False, type=bool)
     form = LoginForm()
+    form2 = CardLoginForm()
 
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -37,7 +39,53 @@ def login():
         else:
             flash('Submitted form was not valid!', category='danger')
 
-    return render_template('login.html', form=form, allow_sign_up=allow_sign_up)
+    return render_template('login.html', form=form, form2=form2, allow_sign_up=allow_sign_up)
+
+
+@card_auth_bp.route('/card_login', methods=['POST'])
+def card_login():
+    if current_user.is_authenticated:
+        flash('Already logged in.')
+        return redirect(request.args.get('next') or url_for('main.index'))
+
+    session['terminal'] = request.args.get('terminal', False, type=bool)
+
+    form = CardLoginForm()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            # Check if card reader checks are enabled
+            if current_app.config.ENABLE_CARD_READER and current_app.config.VERIFY_CARD_READER:
+                # Try verifying the card reader
+                if form.reader.data not in current_app.config.VERIFIED_CARD_READERS:
+                    # Redirect back to the login page
+                    if session.get('terminal', False):
+                        return redirect(url_for('auth.login', terminal=True))
+                    else:
+                        return redirect(url_for('auth.login'))
+
+            user = User.query.filter_by(card=calc_hash(form.card.data)).one_or_none()
+
+            if user:
+                login_user(user, remember=False)
+
+                identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
+
+                return redirect(request.args.get('next') or url_for('main.index'))
+            else:
+                flash('Please check your login details and try again.', category='danger')
+                return redirect(url_for('auth.login'))
+        else:
+            flash('Submitted form was not valid!', category='danger')
+            if session.get('terminal', False):
+                return redirect(url_for('auth.login', terminal=True))
+            else:
+                return redirect(url_for('auth.login'))
+    # Default redirect
+    if session.get('terminal', False):
+        return redirect(url_for('auth.login', terminal=True))
+    else:
+        return redirect(url_for('auth.login'))
 
 
 @auth_bp.route('/logout')
