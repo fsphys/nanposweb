@@ -17,7 +17,7 @@
 
             {% if last_revenue %}
             <div class="d-flex align-items-center">
-                <span class="me-2">Last Buy: {{ last_revenue_product_name }} for {{ macro.render_currency(last_revenue.amount) }}</span>
+                <span class="me-2">Last Buy: {{ last_revenue_product_name }} {% if config.SHOW_BALANCE_AND_PRICE %}for {{ macro.render_currency(last_revenue.amount) }}{% endif %}</span>
                 <a role="button" class="btn btn-danger" href="{{ url_for('main.quick_cancel') }}">Cancel</a>
             </div>
             {% endif %}
@@ -26,9 +26,11 @@
             <div>
                 <span class="nav-link text-dark">User: {{ user_name }}</span>
             </div>
+            {% if config.SHOW_BALANCE_AND_PRICE %}
             <div>
                 <span class="nav-link text-dark">Balance: {{ macro.render_currency(balance) }}</span>
             </div>
+            {% endif %}
             </div>
 
             <div class="ms-3 justify-content-end">
@@ -80,7 +82,11 @@
                             {% endif %}
                             <i class="fa-solid fa-{{ icon }} fa-3x" style="float: left"></i>
                             {{ product.name }}<br>
+                        {% if config.SHOW_BALANCE_AND_PRICE %}
                             {{ macro.render_currency(product.price) }}
+                        {% else %}
+                            {{ macro.render_contingent(balance, product.price) }}
+                        {% endif %}
                         </button>
                     </div>
                 {% endif %}
