@@ -30,7 +30,7 @@ def create_app(test_config=None):
         FAVORITES_DAYS=100,  # Timespan for calculation of favorite products in Days
         ALLOW_SIGNUP=False,  # Disable user sign up
     )
-    if nanposweb_app.env != 'production':
+    if nanposweb_app.debug:
         nanposweb_app.config.from_mapping(
             SESSION_COOKIE_SECURE=False,
             REMEMBER_COOKIE_SECURE=False,
@@ -91,10 +91,10 @@ def create_app(test_config=None):
 
     @nanposweb_app.context_processor
     def get_version():
-        if nanposweb_app.env == 'production':
-            version = metadata.version('nanposweb')
-        else:
+        if nanposweb_app.debug:
             version = 'devel'
+        else:
+            version = metadata.version('nanposweb')
         return dict(version=version)
 
     @nanposweb_app.context_processor
