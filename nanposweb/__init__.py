@@ -91,10 +91,10 @@ def create_app(test_config=None):
 
     @nanposweb_app.context_processor
     def get_version():
-        if nanposweb_app.env == 'production':
-            version = metadata.version('nanposweb')
-        else:
+        if nanposweb_app.debug:
             version = 'devel'
+        else:
+            version = metadata.version('nanposweb')
         return dict(version=version)
 
     @nanposweb_app.context_processor
