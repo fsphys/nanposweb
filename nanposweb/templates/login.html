@@ -12,27 +12,40 @@
             {% endif %}
         </div>
 
-        <form class="form-signin" action="{{ url_for('auth.login', terminal=request.args.get('terminal')) }}"
-              method="post">
-            {{ form.csrf_token }}
-            <div class="form-floating">
-                {{ form.username(class='form-control') }}
-                {{ form.username.label }}
-            </div>
-            <div class="form-floating">
-                {{ form.pin(class='form-control') }}
-                {{ form.pin.label }}
-            </div>
-            {% if session.get('terminal', False) == False %}
-                <div class="checkbox mb-3">
-                    {{ form.remember }}
-                    {{ form.remember.label }}
-                </div>
-            {% endif %}
-            {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
-        </form>
+        {% if session.get('terminal', False) and config.ENABLE_CARD_READER %}
+            <button id="connectButton" type="button" class="btn btn-lg btn-primary">Connect</button>
+            <h2 id="waitingForCard" class="hidden">Waiting for card...</h2>
 
-        {% if allow_sign_up is true %}
+            <form id="cardForm" action="{{ url_for('card.card_login', terminal=request.args.get('terminal')) }}"
+                  method="post">
+                {{ form2.csrf_token }}
+                {{ form2.card }}
+                {{ form2.reader }}
+            </form>
+
+        {% else %}
+            <form class="form-signin" action="{{ url_for('auth.login', terminal=request.args.get('terminal')) }}"
+                  method="post">
+                {{ form.csrf_token }}
+                <div class="form-floating">
+                    {{ form.username(class='form-control') }}
+                    {{ form.username.label }}
+                </div>
+                <div class="form-floating">
+                    {{ form.pin(class='form-control') }}
+                    {{ form.pin.label }}
+                </div>
+                {% if session.get('terminal', False) == False %}
+                    <div class="checkbox mb-3">
+                        {{ form.remember }}
+                        {{ form.remember.label }}
+                    </div>
+                {% endif %}
+                {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
+            </form>
+        {% endif %}
+
+        {% if allow_sign_up is true and session.get('terminal', False) == False %}
             <div class="form-signin">
                 <p>No account yet?</p>
                 <a class="w-100 btn btn-lg btn-secondary" href="{{ url_for("auth.signup") }}" role="button">Sign up</a>
