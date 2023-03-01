@@ -32,8 +32,9 @@ def create_app(test_config=None):
         ENABLE_CARD_READER=False,  # Disable the card reader by default
         VERIFY_CARD_READER=False,  # Verify the send card reader device id
         VERIFIED_CARD_READERS=[],  # Per default are no card readers authorized
+        SHOW_BALANCE_AND_PRICE=False,
     )
-    if nanposweb_app.env != 'production':
+    if nanposweb_app.debug:
         nanposweb_app.config.from_mapping(
             SESSION_COOKIE_SECURE=False,
             REMEMBER_COOKIE_SECURE=False,
