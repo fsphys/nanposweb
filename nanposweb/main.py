@@ -88,6 +88,12 @@ def index_post():
             flash(f'No product with id {product_id} known.', category='danger')
             return redirect(url_for('main.index'))
 
+    # Check if there's enough budget for the purchase
+    if not current_app.config.get("ALLOW_NEGATIVE_BALANCES", False):
+        if product.price > get_balance(user_id):
+            flash('Not enough budget for purchase!', category='danger')
+            return redirect(url_for('main.index'))
+
     rev = Revenue(user=user_id, product=product.id, amount=-product.price)
     db.session.add(rev)
     db.session.commit()
@@ -95,7 +101,10 @@ def index_post():
     # remove impersonate session state
     session.pop('impersonate', None)
 
-    flash(f'Bought {product.name} for {format_currency(product.price)}{user_message}', category='success')
+    if current_app.config.get("SHOW_BALANCE_AND_PRICE", True):
+        flash(f'Bought {product.name} for {format_currency(product.price)}{user_message}', category='success')
+    else:
+        flash(f'Bought {product.name}', category='success')
     if session.get('terminal', False):
         return redirect(url_for('auth.logout'))
     else:

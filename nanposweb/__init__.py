@@ -33,6 +33,7 @@ def create_app(test_config=None):
         VERIFY_CARD_READER=False,  # Verify the send card reader device id
         VERIFIED_CARD_READERS=[],  # Per default are no card readers authorized
         SHOW_BALANCE_AND_PRICE=True,  # Display prices and a balance instead of a count
+        ALLOW_NEGATIVE_BALANCES=False,  # Allow purchases over budget
     )
     if nanposweb_app.debug:
         nanposweb_app.config.from_mapping(

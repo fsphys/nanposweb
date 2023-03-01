@@ -4,6 +4,10 @@ This is a fork of the [Fachschaft Physik am KIT](https://fachschaft.physik.kit.e
 by [domrim](https://gitlab.com/domrim) and licensed under the MIT-License. The original project can be found here: 
 https://gitlab.com/domrim/nanposweb
 
+## Requirements
+
+- Python 3.8 or higher
+
 ## Setup
 
 This a quick start guide.
