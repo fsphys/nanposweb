@@ -74,7 +74,10 @@ def card_login():
                 return redirect(request.args.get('next') or url_for('main.index'))
             else:
                 flash('Please check your login details and try again.', category='danger')
-                return redirect(url_for('auth.login'))
+                if session.get('terminal', False):
+                    return redirect(url_for('auth.login', terminal=True))
+                else:
+                    return redirect(url_for('auth.login'))
         else:
             flash('Submitted form was not valid!', category='danger')
             if session.get('terminal', False):
