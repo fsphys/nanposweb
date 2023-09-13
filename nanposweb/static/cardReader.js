@@ -19,11 +19,18 @@ let timer;
  * user is prompted for one.
  */
 async function getSelectedPort() {
+    // Check if a port was already selected
     try {
         const serial = navigator.serial;
-        port = await serial.requestPort({ filters });
+        port = await serial.getPorts();
     } catch (e) {
-        console.log("Couldn't select port!");
+        // If it fails, try requesting a port
+        try {
+           const serial = navigator.serial;
+            port = await serial.requestPort({ filters });
+        } catch (e) {
+            console.log("Couldn't select port!");
+        }
     }
 }
 
