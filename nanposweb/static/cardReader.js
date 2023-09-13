@@ -22,15 +22,14 @@ async function getSelectedPort() {
     // Check if a port was already selected
     try {
         const serial = navigator.serial;
-        port = await serial.getPorts();
-    } catch (e) {
-        // If it fails, try requesting a port
-        try {
-           const serial = navigator.serial;
+        ports = await serial.getPorts();
+        if (ports.length === 0) {
             port = await serial.requestPort({ filters });
-        } catch (e) {
-            console.log("Couldn't select port!");
+        } else {
+            port = ports[0];
         }
+    } catch (e) {
+        console.log("Couldn't select port!");
     }
 }
 
