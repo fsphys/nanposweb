@@ -83,7 +83,11 @@
                     {% if current_user.is_authenticated %}
                         <a href="{{ url_for('auth.logout') }}" role="button" class="btn btn-danger">Logout</a>
                     {% else %}
-                        <a href="{{ url_for('auth.login') }}" role="button" class="btn btn-success">Login</a>
+                        {% if session.get('terminal', False) %}
+                            <a href="{{ url_for('auth.login', terminal=True) }}" role="button" class="btn btn-success">Login</a>
+                        {% else %}
+                            <a href="{{ url_for('auth.login') }}" role="button" class="btn btn-success">Login</a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
