@@ -12,7 +12,8 @@ buttonConnect.addEventListener('click', connectToPort);
 
 const waitingForCard = document.getElementById('waitingForCard');
 
-await connectToPort();
+// Try auto start
+connectToPort().then(r => {});
 
 let timer;
 
