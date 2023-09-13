@@ -12,6 +12,8 @@ buttonConnect.addEventListener('click', connectToPort);
 
 const waitingForCard = document.getElementById('waitingForCard');
 
+await connectToPort();
+
 let timer;
 
 /**
