@@ -124,13 +124,21 @@ def quick_cancel():
     if revenue_is_canceable(last_revenue):
         db.session.delete(last_revenue)
         db.session.commit()
-        flash(f'Canceled revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}',
-              category='success')
+        if current_app.config.get("SHOW_BALANCE_AND_PRICE", True):
+            flash(f'Canceled revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}',
+                  category='success')
+        else:
+            flash(f'Canceled revenue: {last_revenue_product_name}', category='success')
     else:
-        flash(f'Could not cancel revenue: {last_revenue_product_name} for {format_currency(last_revenue.amount)}'
-              f'</br> because its too old:'
-              f' {round(last_revenue.age.total_seconds())}s > {current_app.config.get("QUICK_CANCEL_SEC")}s',
-              category='danger')
+        if current_app.config.get("SHOW_BALANCE_AND_PRICE", True):
+            flash(f'Could not cancel revenue: {last_revenue_product_name} for '
+                  f'{format_currency(last_revenue.amount)}</br> because its too old:'
+                  f' {round(last_revenue.age.total_seconds())}s > {current_app.config.get("QUICK_CANCEL_SEC")}s',
+                  category='danger')
+        else:
+            flash(f'Could not cancel revenue: {last_revenue_product_name}</br> because its too old:'
+                  f' {round(last_revenue.age.total_seconds())}s > {current_app.config.get("QUICK_CANCEL_SEC")}s',
+                  category='danger')
 
     return redirect(url_for('main.index'))
 
