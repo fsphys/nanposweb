@@ -27,11 +27,15 @@
 {% endmacro %}
 
 {% macro render_contingent(balance, price) %}
-    {% if (balance / price) < 1 %}
-        <span class="text-danger">
+    {% if price > 0%}
+        {% if (balance / price) < 1 %}
+            <span class="text-danger">
+        {% endif %}
+        Remaining: {{ (balance / price) | int }}
+        {% if (balance / price) < 1 %}
+            </span>
+        {% endif %}
+    {% else %}
+        Recharge
     {% endif %}
-Remaining: {{ (balance / price) | int }}
-    {% if (balance / price) < 1 %}
-        </span>
-    {% endif %}
-{%- endmacro %}
+{% endmacro %}
