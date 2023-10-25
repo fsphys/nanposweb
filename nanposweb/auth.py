@@ -25,7 +25,7 @@ def login():
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            user = User.query.filter_by(name=form.username.data).one_or_none()
+            user = User.query.filter_by(name=form.username.data.strip()).one_or_none()
 
             if user and check_hash(user.pin, form.pin.data):
                 login_user(user, remember=form.remember.data)
@@ -133,7 +133,8 @@ def signup():
     if request.method == 'POST':
         if form.validate_on_submit():
             # Check if there is a user with the username
-            check_user = User.query.filter_by(name=form.username.data).one_or_none()
+            username = form.username.data.strip()
+            check_user = User.query.filter_by(name=username).one_or_none()
 
             if form.pin.data != form.repeat_pin.data:
                 flash('PIN isn\'t matching. Please reenter it.', category='danger')
@@ -141,7 +142,7 @@ def signup():
                 flash('Username already taken! Please choose a different one.', category='danger')
             else:
                 # Register the user
-                user = User(name=form.username.data, isop=False, pin=calc_hash(form.pin.data))
+                user = User(name=username, isop=False, pin=calc_hash(form.pin.data))
                 db.session.add(user)
                 db.session.commit()
 
