@@ -7,8 +7,6 @@ MAINTAINER Fachschaft-Physik <admins@fachschaft.physik.kit.edu>
 ENV PYTHONDONTWRITEBYTECODE 1
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED 1
-# Change poetry path from /root to /opt/poetry
-ENV POETRY_HOME=/opt/poetry
 # Set Bootstrap and Fontawesome version
 ENV BOOTSTRAP_VERSION=5.2.2
 ENV FONTAWESOME_VERSION=6.2.0
@@ -63,20 +61,10 @@ RUN mkdir fontawesome \
     && rm -r fontawesome.zip \
     && rm -rf fontawesome
 
-# Create a venv for poetry
-RUN python3 -m venv $POETRY_HOME
-
 # Update pip in venv
 RUN python3 -m pip install --upgrade pip
 
-# Install poetry
-RUN $POETRY_HOME/bin/pip install poetry==1.2.0
-
-# Add poetry to the path
-ENV PATH="$POETRY_HOME/bin:$PATH"
-
-# Install project in production mode
-RUN poetry install --only main
+RUN pip install .
 
 # Start gunicorn serving the site
-CMD ["poetry", "run", "gunicorn", "-b", "0.0.0.0:5000", "nanposweb:create_app()"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "nanposweb:create_app()"]
