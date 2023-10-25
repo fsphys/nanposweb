@@ -70,5 +70,7 @@ RUN mkdir fontawesome \
 # Update pip in venv
 RUN python3 -m pip install --upgrade pip
 
+RUN python3 -m pip install .
+
 # Start gunicorn serving the site
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "nanposweb:create_app()"]
