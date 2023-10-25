@@ -39,7 +39,10 @@ COPY --chown=nanpos:nanpos . .
 
 # Update the package list, install wget
 RUN apt-get update --yes --quiet \
-    && apt-get install --yes --quiet --no-install-recommends wget unzip
+    && apt-get install --yes --quiet --no-install-recommends wget unzip \
+    && pip install -r /requirements.txt \
+    && pip install "gunicorn" \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir nanposweb/static/css \
     && mkdir nanposweb/static/js
@@ -63,8 +66,6 @@ RUN mkdir fontawesome \
 
 # Update pip in venv
 RUN python3 -m pip install --upgrade pip
-
-RUN pip install .
 
 # Start gunicorn serving the site
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "nanposweb:create_app()"]
