@@ -1,4 +1,4 @@
-FROM python:3.10-buster
+FROM python:3.12-bookworm
 
 # Define the maintainer of the image
 MAINTAINER Fachschaft-Physik <admins@fachschaft.physik.kit.edu>
