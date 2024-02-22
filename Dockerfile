@@ -25,9 +25,6 @@ RUN set -e
 # Update pip
 RUN pip install --upgrade pip
 
-# Copy the requirements.txt to the main folder of the container
-COPY requirements.txt /
-
 # Use /app folder as a directory where the source code is stored.
 WORKDIR /app
 
@@ -43,7 +40,7 @@ COPY --chown=nanpos:nanpos . .
 # Update the package list, install wget
 RUN apt-get update --yes --quiet \
     && apt-get install --yes --quiet --no-install-recommends wget unzip \
-    && pip install -r /requirements.txt \
+    && pip install . \
     && pip install "gunicorn" \
     && rm -rf /var/lib/apt/lists/*
 
