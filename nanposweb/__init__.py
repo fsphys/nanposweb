@@ -25,6 +25,7 @@ def create_app(test_config=None):
         SQLALCHEMY_DATABASE_URI='postgresql://nanpos:nanpos@localhost:5432/nanpos',
         TERMINAL_LOGOUT_TIMEOUT=30,  # logout timeout for Terminal mode in seconds, set to none to disable
         QUICK_CANCEL_SEC=60,  # Second-Limit for canceling a revenue
+        PURCHASE_COOLDOWN=0.0,  # Cooldown between multiple purchases in seconds. If zero, there's no cooldown.
         BANK_DATA=None,
         FAVORITES_DISPLAY=3,  # Amount of favorite products which should get highlighted
         FAVORITES_DAYS=100,  # Timespan for calculation of favorite products in Days

@@ -30,8 +30,9 @@ def get_user_id():
     return user_id
 
 
-def revenue_is_canceable(revenue: Revenue):
-    if revenue.age.total_seconds() < current_app.config.get('QUICK_CANCEL_SEC'):
-        return True
+def revenue_is_cancelable(revenue: Revenue) -> bool:
+    return revenue.age.total_seconds() < current_app.config.get('QUICK_CANCEL_SEC')
 
-    return False
+
+def revenue_in_cooldown(revenue: Revenue) -> bool:
+    return revenue.age.total_seconds() < current_app.config.get("PURCHASE_COOLDOWN")

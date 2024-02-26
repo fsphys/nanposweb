@@ -8,7 +8,7 @@ from .db import db
 from .db.helpers import get_balance, revenue_query
 from .db.models import Product, Revenue, User
 from .forms import MainForm
-from .helpers import format_currency, get_user_id, revenue_is_canceable
+from .helpers import format_currency, get_user_id, revenue_is_cancelable, revenue_in_cooldown
 
 main_bp = Blueprint('main', __name__)
 
@@ -36,7 +36,7 @@ def index():
     last_buy_query = revenue_query(user_id)
     last_revenue, last_revenue_product_name = db.session.execute(last_buy_query).first() or (None, None)
 
-    if last_revenue is not None and not revenue_is_canceable(last_revenue):
+    if last_revenue is not None and not revenue_is_cancelable(last_revenue):
         last_revenue = False
 
     most_buyed_timestamp = datetime.datetime.now() - datetime.timedelta(days=current_app.config['FAVORITES_DAYS'])
@@ -94,6 +94,19 @@ def index_post():
             flash('Not enough budget for purchase!', category='danger')
             return redirect(url_for('main.index'))
 
+    # Check if the cooldown feature is enabled
+    if current_app.config.get("PURCHASE_COOLDOWN", 0) != 0:
+        last_buy_query = revenue_query(user_id)
+        last_revenue, last_revenue_product_name = db.session.execute(last_buy_query).first()
+
+        print(last_revenue.age.total_seconds())
+
+        # Check if the last revenue is still in the cooldown phase
+        if revenue_in_cooldown(last_revenue):
+            # Don't do this purchase
+            flash("You're purchasing to fast!", category='danger')
+            return redirect(url_for('main.index'))
+
     rev = Revenue(user=user_id, product=product.id, amount=-product.price)
     db.session.add(rev)
     db.session.commit()
@@ -124,7 +137,7 @@ def quick_cancel():
     last_buy_query = revenue_query(user_id)
     last_revenue, last_revenue_product_name = db.session.execute(last_buy_query).first()
 
-    if revenue_is_canceable(last_revenue):
+    if revenue_is_cancelable(last_revenue):
         db.session.delete(last_revenue)
         db.session.commit()
         if current_app.config.get("SHOW_BALANCE_AND_PRICE", True):
