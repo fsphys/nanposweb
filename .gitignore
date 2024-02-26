@@ -148,3 +148,5 @@ cython_debug/
 nanposweb/static/js
 nanposweb/static/css
 nanposweb/static/webfonts
+
+*.db
