@@ -10,7 +10,7 @@ name = "nanposweb"
 description = ""
 requires-python= ">=3.9"
 license = {text = "MIT"}
-version = "1.1.1"
+version = "1.1.2"
 dependencies = [
 	"Flask==2.2.3",
 	"Flask-SQLAlchemy",
@@ -23,3 +23,14 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ['flake8']
+
+[tool.flake8]
+max-line-length = 120
+exclude = [
+    # No need to traverse our git directory
+    ".git",
+    # There's no value in checking cache directories
+    "__pycache__",
+	# Build directories
+	"build/*"
+]
