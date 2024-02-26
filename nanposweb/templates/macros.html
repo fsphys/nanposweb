@@ -27,7 +27,7 @@
 {% endmacro %}
 
 {% macro render_contingent(balance, price) %}
-    {% if price > 0%}
+    {% if price > 0 %}
         {% if (balance / price) < 1 %}
             <span class="text-danger">
         {% endif %}
