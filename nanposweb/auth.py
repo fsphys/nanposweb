@@ -55,7 +55,8 @@ def card_login():
     if request.method == 'POST':
         if form.validate_on_submit():
             # Check if card reader checks are enabled
-            if current_app.config.get("ENABLE_CARD_READER", False) and current_app.config.get("VERIFY_CARD_READER", False):
+            if (current_app.config.get("ENABLE_CARD_READER", False) and
+                    current_app.config.get("VERIFY_CARD_READER", False)):
                 # Try verifying the card reader
                 if form.reader.data not in current_app.config.get("VERIFIED_CARD_READERS", []):
                     # Redirect back to the login page
