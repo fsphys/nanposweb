@@ -104,7 +104,10 @@ def index_post():
     if current_app.config.get("SHOW_BALANCE_AND_PRICE", True):
         flash(f'Bought {product.name} for {format_currency(product.price)}{user_message}', category='success')
     else:
-        flash(f'Bought {product.name}', category='success')
+        if product.price < 0.0:
+            flash("Please ensure that you have paid for the item on the other device!", category='warning')
+        else:
+            flash(f'Bought {product.name}', category='success')
     if session.get('terminal', False):
         return redirect(url_for('auth.logout'))
     else:
