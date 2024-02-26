@@ -55,6 +55,8 @@
                     <div class="d-grid">
                     {% if product in favorites %}
                         <button type="submit" class="btn btn-primary py-5 ps-5" name="product_id"
+                    {% elif product.price < 0 %}
+                        <button type="submit" class="btn btn-outline-dark py-5 ps-5" name="product_id"
                     {% else %}
                         <button type="submit" class="btn btn-outline-primary py-5 ps-5" name="product_id"
                     {% endif %}
