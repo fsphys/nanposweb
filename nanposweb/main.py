@@ -97,15 +97,14 @@ def index_post():
     # Check if the cooldown feature is enabled
     if current_app.config.get("PURCHASE_COOLDOWN", 0) != 0:
         last_buy_query = revenue_query(user_id)
-        last_revenue, last_revenue_product_name = db.session.execute(last_buy_query).first()
+        last_revenue = db.session.execute(last_buy_query).first()
 
-        print(last_revenue.age.total_seconds())
-
-        # Check if the last revenue is still in the cooldown phase
-        if revenue_in_cooldown(last_revenue):
-            # Don't do this purchase
-            flash("You're purchasing to fast!", category='danger')
-            return redirect(url_for('main.index'))
+        if last_revenue is not None:
+            # Check if the last revenue is still in the cooldown phase
+            if revenue_in_cooldown(last_revenue[0]):
+                # Don't do this purchase
+                flash("You're purchasing to fast!", category='danger')
+                return redirect(url_for('main.index'))
 
     rev = Revenue(user=user_id, product=product.id, amount=-product.price)
     db.session.add(rev)
