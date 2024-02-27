@@ -10,7 +10,7 @@ name = "nanposweb"
 description = ""
 requires-python= ">=3.9"
 license = {text = "MIT"}
-version = "1.1.5"
+version = "1.1.6"
 dependencies = [
 	"Flask==2.2.3",
 	"Flask-SQLAlchemy",
