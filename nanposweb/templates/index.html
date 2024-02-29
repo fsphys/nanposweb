@@ -23,7 +23,7 @@
             {% endif %}
 
             <div class="row-cols-auto d-flex ms-auto">
-            <div>
+            <div class="mx-1">
                 <span class="nav-link text-dark">User: {{ user_name }}</span>
             </div>
             {% if config.SHOW_BALANCE_AND_PRICE %}
@@ -53,33 +53,80 @@
             {% for product in products %}
                 {% if product.visible or view_all %}
                     <div class="d-grid">
-                    {% if product in favorites %}
-                        <button type="submit" class="btn btn-primary py-5 ps-5" name="product_id"
-                    {% elif product.price < 0 %}
-                        <button type="submit" class="btn btn-outline-dark py-5 ps-5" name="product_id"
-                    {% else %}
-                        <button type="submit" class="btn btn-outline-primary py-5 ps-5" name="product_id"
-                    {% endif %}
-                                value="{{ product.id }}">
-                            {% if product in favorites %}
-                                {% set icon = "star" %}
-                            {% elif product.is_food %}
-                                {% set icon = (food_icons | random) %}
-                            {% else %}
-                                {% if product.has_alc %}
-                                    {% set icon = (alc_icons | random) %}
+                    {% if product.price < 0 %}
+                        {% if config.VERIFY_FREE_PURCHASES %}
+                            <a class="btn btn-outline-dark py-5 ps-5" href="{{ url_for('main.verify_purchase', product=product.id) }}">
+                                {% if product.is_food %}
+                                    {% set icon = (food_icons | random) %}
                                 {% else %}
-                                    {% set icon = (drink_icons | random) %}
+                                    {% if product.has_alc %}
+                                        {% set icon = (alc_icons | random) %}
+                                    {% else %}
+                                        {% set icon = (drink_icons | random) %}
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-                            <i class="fa-solid fa-{{ icon }} fa-3x" style="float: left"></i>
-                            {{ product.name }}<br>
-                        {% if config.SHOW_BALANCE_AND_PRICE %}
-                            {{ macro.render_currency(product.price) }}
+                                <i class="fa-solid fa-{{ icon }} fa-3x" style="float: left"></i>
+                                {{ product.name }}<br>
+                                {% if config.SHOW_BALANCE_AND_PRICE %}
+                                    {{ macro.render_currency(product.price) }}
+                                {% else %}
+                                    {{ macro.render_contingent(balance, product.price) }}
+                                {% endif %}
+                            </a>
                         {% else %}
-                            {{ macro.render_contingent(balance, product.price) }}
+                            <button type="submit" class="btn btn-outline-dark py-5 ps-5" name="product_id" value="{{ product.id }}">
+                                {% if product.is_food %}
+                                    {% set icon = (food_icons | random) %}
+                                {% else %}
+                                    {% if product.has_alc %}
+                                        {% set icon = (alc_icons | random) %}
+                                    {% else %}
+                                        {% set icon = (drink_icons | random) %}
+                                    {% endif %}
+                                {% endif %}
+                                <i class="fa-solid fa-{{ icon }} fa-3x" style="float: left"></i>
+                                {{ product.name }}<br>
+                                {% if config.SHOW_BALANCE_AND_PRICE %}
+                                    {{ macro.render_currency(product.price) }}
+                                {% else %}
+                                    {{ macro.render_contingent(balance, product.price) }}
+                                {% endif %}
+                            </button>
                         {% endif %}
-                        </button>
+                    {% else %}
+                        {% if product in favorites %}
+                            <button type="submit" class="btn btn-primary py-5 ps-5" name="product_id" value="{{ product.id }}">
+                                {% set icon = "star" %}
+                                <i class="fa-solid fa-{{ icon }} fa-3x" style="float: left"></i>
+                                {{ product.name }}<br>
+                                {% if config.SHOW_BALANCE_AND_PRICE %}
+                                    {{ macro.render_currency(product.price) }}
+                                {% else %}
+                                    {{ macro.render_contingent(balance, product.price) }}
+                                {% endif %}
+                            </button>
+                        {% else %}
+                            <button type="submit" class="btn btn-outline-primary py-5 ps-5" name="product_id" value="{{ product.id }}">
+                                {% if product.is_food %}
+                                    {% set icon = (food_icons | random) %}
+                                {% else %}
+                                    {% if product.has_alc %}
+                                        {% set icon = (alc_icons | random) %}
+                                    {% else %}
+                                        {% set icon = (drink_icons | random) %}
+                                    {% endif %}
+                                {% endif %}
+                                <i class="fa-solid fa-{{ icon }} fa-3x" style="float: left"></i>
+                                {{ product.name }}<br>
+                                {% if config.SHOW_BALANCE_AND_PRICE %}
+                                    {{ macro.render_currency(product.price) }}
+                                {% else %}
+                                    {{ macro.render_contingent(balance, product.price) }}
+                                {% endif %}
+                            </button>
+                        {% endif %}
+                    {% endif %}
+
                     </div>
                 {% endif %}
             {% endfor %}

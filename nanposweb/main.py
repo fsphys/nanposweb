@@ -40,9 +40,10 @@ def index():
         last_revenue = False
 
     most_buyed_timestamp = datetime.datetime.now() - datetime.timedelta(days=current_app.config['FAVORITES_DAYS'])
-    most_buyed_query = db.select(Product, db.func.count(Revenue.product).label('CTR')).join(Product).where(
-        Revenue.product is not None).where(Revenue.user == user_id).where(
-        Revenue.date >= most_buyed_timestamp).group_by(Product.id).order_by(db.desc('CTR'))
+    most_buyed_query = (db.select(Product, db.func.count(Revenue.product).label('CTR')).join(Product)
+                        .where(Revenue.product is not None).where(Revenue.user == user_id)
+                        .where(Revenue.date >= most_buyed_timestamp).where(Product.visible)
+                        .where(Product.price >= 0).group_by(Product.id).order_by(db.desc('CTR')))
     most_buyed = db.session.execute(most_buyed_query).all()
     favorites = [f[0] for f in most_buyed[:current_app.config.get('FAVORITES_DISPLAY')]]
 
@@ -116,10 +117,7 @@ def index_post():
     if current_app.config.get("SHOW_BALANCE_AND_PRICE", True):
         flash(f'Bought {product.name} for {format_currency(product.price)}{user_message}', category='success')
     else:
-        if product.price < 0.0:
-            flash("Please ensure that you have paid for the item on the other device!", category='warning')
-        else:
-            flash(f'Bought {product.name}', category='success')
+        flash(f'Bought {product.name}', category='success')
     if session.get('terminal', False):
         return redirect(url_for('auth.logout'))
     else:
@@ -127,6 +125,31 @@ def index_post():
             return redirect(url_for('admin.users.index'))
         else:
             return redirect(url_for('main.index'))
+
+
+@main_bp.route("/verify-purchase", methods=['GET'])
+@login_required
+def verify_purchase():
+    if not current_app.config.get("VERIFY_FREE_PURCHASES", False):
+        # Redirect to the verification page
+        return redirect(url_for("main.index"))
+    if request.args.get('product') is None:
+        # Redirect to the verification page
+        return redirect(url_for("main.index"))
+
+    user_id = get_user_id()
+    balance = get_balance(user_id)
+    form = MainForm()
+
+    product_id = request.args.get('product')
+    if product_id is None:
+        return redirect(url_for('main.index'))
+
+    product = Product.query.filter_by(id=product_id).first()
+    if product is None:
+        return redirect(url_for('main.index'))
+
+    return render_template('verify.html', balance=balance, form=form, product=product)
 
 
 @main_bp.route('/quick-cancel', methods=['GET'])

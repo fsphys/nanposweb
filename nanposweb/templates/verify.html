@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block pagetitle %}Verify Purchase{% endblock %}
+
+{% block utilbar %}
+    <div class="navbar navbar-light bg-light">
+        <div class="container row-cols-auto">
+            {% if impersonate_user is not none %}
+                <div class="d-flex align-items-center me-auto">
+                    <i class="fa-solid fa-user-secret text-danger me-1"></i>
+                    <span class="text-danger me-3">Impersonating {{ impersonate_user.name }}</span>
+                    <a role="button" class="btn btn-danger"
+                       href="{{ url_for('admin.users.pop_impersonate') }}">Disable</a>
+                </div>
+            {% endif %}
+
+            <div class="row-cols-auto d-flex ms-auto">
+                <div class="mx-1">
+                    <span class="nav-link text-dark">User: {{ user_name }}</span>
+                </div>
+                {% if config.SHOW_BALANCE_AND_PRICE %}
+                    <div>
+                        <span class="nav-link text-dark">Balance: {{ macro.render_currency(balance) }}</span>
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <form action="{{ url_for('main.index') }}" method="post">
+        {{ form.csrf_token }}
+        <h1>Verify purchase</h1>
+        <p class="fs-3">Have you purchased this item, a {{ product.name }}, already at the other device?</p>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-outline-secondary w-100 py-2" href="{{ url_for('main.index') }}">No</a>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary w-100 py-2" name="product_id" value="{{ product.id }}">Yes</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        {% if config.VERIFY_FREE_PURCHASES_NOTE %}
+            <p>{{ config.VERIFY_FREE_PURCHASES_NOTE }}</p>
+        {% endif %}
+
+    </form>
+{% endblock %}
