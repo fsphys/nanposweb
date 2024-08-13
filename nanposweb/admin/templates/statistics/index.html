@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block pagetitle %}Statistics{% endblock %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Product</th>
+            <th scope="col">User</th>
+            <th scope="col">Count</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for entry in results %}
+                {% for user in entry["users"] %}
+                    <tr>
+                        <td>{{ entry["product"].name }}</td>
+                        <td>{{ user.name }}</td>
+                        <td class="text-end">{{ entry["count"] }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
