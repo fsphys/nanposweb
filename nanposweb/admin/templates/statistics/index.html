@@ -2,7 +2,9 @@
 {% block pagetitle %}Statistics{% endblock %}
 
 {% block content %}
-
+    <p><b>Total user count:</b> {{ total_user_count }}</p>
+    <p><b>Total product count:</b> {{ total_product_count }}</p>
+    <p><b>Total outstanding balance:</b> {{ total_balance | format_currency }}</p>
     <table class="table">
         <thead>
         <tr>

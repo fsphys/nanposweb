@@ -38,4 +38,9 @@ def index():
 
         results.append({"product": product, "count": maximum, "users": users})
 
-    return render_template('statistics/index.html', results=results)
+    total_balance = Revenue.query.with_entities(func.sum(Revenue.amount).label('total')).first().total
+    total_user_count = User.query.with_entities(func.count(User.id)).scalar()
+    total_product_count = Product.query.with_entities(func.count(Product.id)).scalar()
+
+    return render_template('statistics/index.html', results=results, total_balance=total_balance,
+                           total_user_count=total_user_count, total_product_count=total_product_count)
