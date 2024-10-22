@@ -1,8 +1,7 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template
 from flask_login import login_required
 from sqlalchemy import func
 
-from ..db import db
 from ..db.models import Product, Revenue, User
 from .helpers import admin_permission
 
