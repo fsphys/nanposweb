@@ -1,0 +1,22 @@
+default:
+  image: debian:latest
+
+before_script:
+  - apt-get -y update
+  - command -v git || apt-get -y install git
+  - command -v python3 || apt-get -y install python3
+  - command -v pip3 || apt-get -y install python3-pip
+  - python3 -V  # Print out python version for debugging
+  - python3 -m venv || apt-get -y install python3-venv
+  - python3 -m venv venv && source venv/bin/activate
+  - command -v venv/bin/ruff || venv/bin/pip3 install ruff
+
+stages:
+  - lint
+
+ruff:
+  stage: lint
+  script:
+    - ruff check
+  needs: []
+  allow_failure: false

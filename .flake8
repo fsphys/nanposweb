@@ -1,4 +1,0 @@
-[flake8]
-exclude = build/*,.venv,venv
-max-line-length = 120
-statistics = True
