@@ -10,15 +10,15 @@ name = "nanposweb"
 description = "A simple point of sale system for drinks"
 requires-python= ">=3.9"
 license = {text = "MIT"}
-version = "1.3.2"
+version = "1.3.3"
 dependencies = [
-	"Flask==2.2.3",
+	"Flask>=3.1.0",
 	"Flask-SQLAlchemy",
-	"Flask-Login",
+	"Flask-Login>=0.6.2",
 	"Flask-WTF",
 	"Flask-Principal",
 	"psycopg2-binary",
-	"werkzeug==2.2.3",
+	"werkzeug>=3.1.0",
 ]
 
 [project.optional-dependencies]
