@@ -80,25 +80,39 @@ This a quick start guide.
 These are the default values used for the config:
 
 ```python
-SECRET_KEY='dev',
-SESSION_COOKIE_SECURE=True,
-REMEMBER_COOKIE_SECURE=True,
-SQLALCHEMY_TRACK_MODIFICATIONS=False,
-SQLALCHEMY_DATABASE_URI='postgresql://nanpos:nanpos@localhost:5432/nanpos',
-TERMINAL_LOGOUT_TIMEOUT=30,  # logout timeout for Terminal mode in seconds, set to none to disable
-QUICK_CANCEL_SEC=60,  # Second-Limit for canceling a revenue
-PURCHASE_COOLDOWN=0.0,  # Cooldown between multiple purchases in seconds. If zero, there's no cooldown.
-VERIFY_FREE_PURCHASES=False,  # Option, whether purchases with no cost must be verified
-VERIFY_FREE_PURCHASES_NOTE=None,  # Optional text, that is displayed during confirmation
-BANK_DATA=None,  # Display bank data
-FAVORITES_DISPLAY=3,  # Amount of favorite products which should get highlighted
-FAVORITES_DAYS=100,  # Timespan for calculation of favorite products in Days
-ALLOW_SIGNUP=False,  # Disable user sign up
-ENABLE_CARD_READER=False,  # Disable the card reader by default
-VERIFY_CARD_READER=False,  # Verify the send card reader device id
-VERIFIED_CARD_READERS=[],  # List of strings of verified readers. Per default are no card readers authorized.
-SHOW_BALANCE_AND_PRICE=True,  # Display prices and a balance instead of a count
-ALLOW_NEGATIVE_BALANCES=False,  # Allow purchases over budget
+SECRET_KEY='dev'
+SESSION_COOKIE_SECURE=True
+REMEMBER_COOKIE_SECURE=True
+SQLALCHEMY_TRACK_MODIFICATIONS=False
+SQLALCHEMY_DATABASE_URI='postgresql://nanpos:nanpos@localhost:5432/nanpos'
+# logout timeout for Terminal mode in seconds, set to none to disable
+TERMINAL_LOGOUT_TIMEOUT=30
+# Second-Limit for canceling a revenue
+QUICK_CANCEL_SEC=60
+# Cooldown between multiple purchases in seconds. If zero, there's no cooldown.
+PURCHASE_COOLDOWN=0.0
+# Option, whether purchases with no cost must be verified
+VERIFY_FREE_PURCHASES=False
+# Optional text, that is displayed during confirmation
+VERIFY_FREE_PURCHASES_NOTE=None
+# Display bank data
+BANK_DATA=None
+# Amount of favorite products which should get highlighted
+FAVORITES_DISPLAY=3
+# Timespan for calculation of favorite products in Days
+FAVORITES_DAYS=100
+# Disable user sign up
+ALLOW_SIGNUP=False
+# Disable the card reader by default
+ENABLE_CARD_READER=False
+# Verify the send card reader device id
+VERIFY_CARD_READER=False
+# List of strings of verified readers. Per default are no card readers authorized.
+VERIFIED_CARD_READERS=[]
+# Display prices and a balance instead of a count
+SHOW_BALANCE_AND_PRICE=True
+# Allow purchases over budget
+ALLOW_NEGATIVE_BALANCES=False
 ```
 
 You can use additional standard configuration values from the [Flask](https://flask.palletsprojects.com/en/2.0.x/), [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
